@@ -1,10 +1,16 @@
 package music.ui.console;
 
+import Service.AudioPlayer;
+import javafx.application.Application;
+import javafx.stage.Stage;
 import music.application.CartService;
 
-public class MusicApplication {
+import static javafx.application.Application.launch;
+
+public class MusicApplication{
 
     public static void main(String[] args) {
+        Application.launch(Service.AudioPlayer.class, args);
         CartService cartService = new CartService();
         CartController cartController = new CartController(cartService);
 
@@ -17,6 +23,5 @@ public class MusicApplication {
                 System.out.println(e.getMessage());
             }
         }
-
     }
 }
