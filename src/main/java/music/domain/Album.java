@@ -6,4 +6,6 @@ public class Album {
     private String name;
     private List<Song> songs;
     private int price;
+
+
 }
