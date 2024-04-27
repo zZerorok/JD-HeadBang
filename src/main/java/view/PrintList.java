@@ -1,7 +1,8 @@
 package view;
 
-import DTO.AlbumDTO;
-import DTO.TrackDTO;
+
+import music.domain.dto.AlbumDTO;
+import music.domain.dto.TrackDTO;
 
 import java.util.ArrayList;
 import java.util.List;

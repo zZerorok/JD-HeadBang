@@ -1,7 +1,7 @@
-package Comparable;
+package music.comparable.sort.track;
 
-import DTO.AlbumDTO;
-import java.util.AbstractList;
+import music.domain.dto.AlbumDTO;
+
 import java.util.Comparator;
 
 public class DescArtistName implements Comparator<AlbumDTO> {

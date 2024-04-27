@@ -1,8 +1,5 @@
 package music.ui.console;
 
-import Service.AudioPlayer;
-import javafx.application.Application;
-import javafx.stage.Stage;
 import music.application.CartService;
 
 import static javafx.application.Application.launch;

@@ -1,6 +1,6 @@
 package music.ui.console;
 
-import Service.Database;
+import music.service.Database;
 import music.ui.console.utils.InputUtils;
 import view.PrintList;
 

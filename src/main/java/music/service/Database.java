@@ -1,6 +1,8 @@
-package Service;
+package music.service;
 
-import DTO.*;
+import music.domain.dto.AlbumDTO;
+import music.domain.dto.TrackDTO;
+
 import java.util.*;
 
 public class Database {
@@ -33,9 +35,9 @@ public class Database {
                 "K-Pop", "2023-07-21", "1695951888");
 
         albumList.add(
-                new AlbumDTO("(여자)아이들", "2", 7.99, "2023-05-15", "1725271942", Arrays.asList(track1, track2, track3),1));
+                new AlbumDTO("(여자)아이들", "2", 7.99, "2023-05-15", "1725271942", Arrays.asList(track1, track2, track3)));
         albumList.add(
-                new AlbumDTO("뉴진스", "1", 8.00, "2023-07-21", "1695951888", Arrays.asList(track4, track5, track6),1));
+                new AlbumDTO("뉴진스", "1", 8.00, "2023-07-21", "1695951888", Arrays.asList(track4, track5, track6)));
     }
 
 }

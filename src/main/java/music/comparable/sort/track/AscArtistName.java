@@ -1,6 +1,6 @@
-package Comparable;
+package music.comparable.sort.track;
 
-import DTO.AlbumDTO;
+import music.domain.dto.AlbumDTO;
 import java.util.Comparator;
 
 public class AscArtistName implements Comparator<AlbumDTO> {
