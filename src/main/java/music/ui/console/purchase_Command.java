@@ -3,6 +3,8 @@ package music.ui.console;
 public enum purchase_Command {
     PURCHASE("1", "구매"),
     CHANGE_AMOUNT("2", "수량변경"),
+    PUT("3", "장바구니 담기"),
+    CANCEL("4", "장바구니 목록 제거"),
     EXIT("0", "취소하기");
 
     private final String code;
@@ -12,6 +14,7 @@ public enum purchase_Command {
         this.code = code;
         this.title = title;
     }
+
     public String getCode() {
         return code;
     }

@@ -1,6 +1,7 @@
 package music.ui.console;
 
 import music.application.CartService;
+import music.domain.CartItem;
 import music.ui.console.utils.InputUtils;
 
 import java.util.Arrays;
@@ -13,26 +14,34 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    public void buy() {
-        String inputAlbumIds = InputUtils.nextLine("구매할 앨범 아이디를 입력해 주세요");
-        List<Long> albumIds = Arrays.stream(inputAlbumIds.split(","))
-                .map(String::trim) /* ["1", "2", "3"]*/
-                .map(this::parse) /* [1, 2, 3]*/
-                .toList();
-    // "1,2 , 3 ,4    , 5 ,   6  "
-        // "1", "2 ", " 3", "4    ", " 5 ", "    6  ",
-        // "1", "2", "3", "4", "5", "6",
-
-//        Stream[1,2,3,4,5,6]
-//         List[1,2,3,4,5,6]
-        cartService.put(albumIds);
+    public void showCart() {
+        List<CartItem> cartItems = cartService.findAll();
+        System.out.println("장바구니 ID | 앨범 이름 | 앨범 가격 | 수량");
+        for (CartItem cartItem : cartItems) {
+            System.out.println(cartItem.getId() + " | " + cartItem.getAlbum().getCollectionName() + " | " + cartItem.getAlbum().getCollectionPrice() + " | " + cartItem.getQuantity());
+        }
     }
 
-    private Long parse(String id) {
-        try {
-            return Long.valueOf(id);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("앨범 아이디(숫자)를 입력해 주세요. - " + id);
-        }
+    public void put() {
+        String inputAlbumIds = InputUtils.nextLine("앨범 아이디를 입력해 주세요. (구분자: ,)");
+        List<String> albumIds = Arrays.stream(inputAlbumIds.split(","))
+                .map(String::trim)
+                .toList();
+        cartService.put(albumIds);
+        System.out.println("앨범 목록을 장바구니에 담았습니다.");
+    }
+
+    public void cancel() {
+        String inputCartItemIds = InputUtils.nextLine("장바구니 번호를 입력해 주세요. (구분자: ,)");
+        List<Integer> cartItemIds = Arrays.stream(inputCartItemIds.split(","))
+                .map(String::trim)
+                .map(Integer::parseInt)
+                .toList();
+        cartService.cancel(cartItemIds);
+        System.out.println("선택한 장바구니 목록을 비웠습니다.");
+    }
+
+    public void buy() {
+        // TODO: 창연님 기능 구현
     }
 }

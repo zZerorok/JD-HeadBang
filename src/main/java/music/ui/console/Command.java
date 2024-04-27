@@ -3,6 +3,7 @@ package music.ui.console;
 public enum Command {
     SHOW_ALBUM("1", "앨범 전체 출력"),
     SEARCH_ALBUM("2", "검색"),
+    CART("3", "장바구니"),
     BUY_ALBUM("5", "구매하기"),
     EXIT("0", "종료하기")
     ;
