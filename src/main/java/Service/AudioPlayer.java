@@ -1,5 +1,6 @@
 package Service;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -10,32 +11,45 @@ import javafx.stage.Stage;
 import java.util.Scanner;
 public class AudioPlayer extends Application {
     private MediaPlayer mediaPlayer;
+
     @Override
     public void start(Stage primaryStage) {
-        // 콘솔에서 URL을 입력받기 위해 Scanner 사용
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter M4A file URL: "); // 사용자에게 입력 요청
-        String fileUrl = scanner.nextLine(); // 입력된 URL 가져오기
+        // 전달된 매개변수에서 URL 가져오기
+        String[] parameters = getParameters().getRaw().toArray(new String[0]);
+        if (parameters.length == 0) {
+            throw new IllegalArgumentException("No URL provided");
+        }
 
-        // Media 객체 생성
-        Media media = new Media(fileUrl);
-        mediaPlayer = new MediaPlayer(media);
+        String fileUrl = parameters[0]; // 첫 번째 매개변수
+        configureMediaPlayer(fileUrl); // MediaPlayer 설정\
 
-        // 플레이 버튼 생성
-        Button playButton = new Button("Play");
-        playButton.setOnAction(e -> mediaPlayer.play()); // 버튼 클릭 시 재생
+        monitorConsoleForExit();
+    }
+    private void monitorConsoleForExit() {
+        new Thread(() -> {
+            Scanner scanner = new Scanner(System.in);
+            while (true) {
+                String input = scanner.nextLine().trim(); // 콘솔 입력 받기
+                if ("q".equalsIgnoreCase(input)) { // 'q' 입력 시
+                    Platform.runLater(() -> {
+                        if (mediaPlayer != null) {
+                            mediaPlayer.stop(); // 음악 중지
+                        }
+                    });
+                }
+            }
+        }).start(); // 스레드 시작
+    }
 
-        // 스톱 버튼 생성
-        Button stopButton = new Button("Stop");
-        stopButton.setOnAction(e -> mediaPlayer.stop()); // 버튼 클릭 시 재생 중지
-
-        // HBox를 사용하여 버튼을 수평으로 배치하고 중앙에 정렬
-        HBox buttonBox = new HBox(10, playButton, stopButton); // 10px 간격으로 배치
-        StackPane stackPane = new StackPane(buttonBox); // 중앙에 정렬
-
-        Scene scene = new Scene(stackPane, 300, 100); // 장면 크기 설정
-        primaryStage.setTitle("M4A Player"); // 창 제목 설정
-        primaryStage.setScene(scene); // 장면 설정
-        primaryStage.show(); // 창 표시
+    /**
+     * 주어진 URL로 MediaPlayer를 설정하는 메서드
+     */
+    private void configureMediaPlayer(String fileUrl) {
+        Media media = new Media(fileUrl); // Media 객체 생성
+        mediaPlayer = new MediaPlayer(media); // MediaPlayer 생성
+        mediaPlayer.setAutoPlay(true); // 자동 재생
+        mediaPlayer.setOnEndOfMedia(() -> {
+            Platform.exit(); // JavaFX 애플리케이션 종료
+        });
     }
 }
