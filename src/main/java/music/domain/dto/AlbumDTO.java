@@ -1,4 +1,4 @@
-package DTO;
+package music.domain.dto;
 
 import java.time.*;
 import java.util.*;

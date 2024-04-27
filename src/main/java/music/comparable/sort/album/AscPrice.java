@@ -1,7 +1,7 @@
-package Comparable;
+package music.comparable.sort.album;
 
-import DTO.AlbumDTO;
-import java.util.Arrays;
+import music.domain.dto.AlbumDTO;
+
 import java.util.Comparator;
 
 public class AscPrice implements Comparator<AlbumDTO> {

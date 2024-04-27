@@ -1,6 +1,8 @@
-package Service;
+package music.service;
 
-import DTO.*;
+import music.domain.dto.AlbumDTO;
+import music.domain.dto.TrackDTO;
+
 import java.util.*;
 
 public class Database {
