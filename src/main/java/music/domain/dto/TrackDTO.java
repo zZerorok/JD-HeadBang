@@ -43,4 +43,8 @@ public class TrackDTO {
         return releaseDate;
     }
 
+    @Override
+    public String toString() {
+        return trackName;
+    }
 }

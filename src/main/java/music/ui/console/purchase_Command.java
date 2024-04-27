@@ -1,20 +1,17 @@
 package music.ui.console;
 
-public enum Command {
-    SHOW_ALBUM("1", "앨범 전체 출력"),
-    SEARCH_ALBUM("2", "검색"),
-    BUY_ALBUM("5", "구매하기"),
-    EXIT("0", "종료하기")
-    ;
+public enum purchase_Command {
+    PURCHASE("1", "구매"),
+    CHANGE_AMOUNT("2", "수량변경"),
+    EXIT("0", "취소하기");
 
     private final String code;
     private final String title;
 
-    Command(String code, String title) {
+    purchase_Command(String code, String title) {
         this.code = code;
         this.title = title;
     }
-
     public String getCode() {
         return code;
     }
@@ -23,13 +20,12 @@ public enum Command {
         return title;
     }
 
-    public static Command from(String code) {
-        for (Command command : values()) {
-            if (command.code.equals(code)) {
-                return command;
+    public static purchase_Command from(String code) {
+        for (purchase_Command purchase_Command : values()) {
+            if (purchase_Command.code.equals(code)) {
+                return purchase_Command;
             }
         }
         throw new IllegalArgumentException(code + " 명령어는 찾을 수 없습니다");
     }
 }
-
