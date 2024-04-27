@@ -12,8 +12,6 @@ public class AlbumDTO {
     protected String collectionId;
     protected List<TrackDTO> tracks;
 
-
-
     public AlbumDTO(String artistName, String collectionName, Double collectionPrice, String releaseDate,
                     String collectionId, List<TrackDTO> tracks) {
         this.artistName = artistName;
@@ -49,16 +47,5 @@ public class AlbumDTO {
         return tracks;
     }
 
-    @Override
-    public String toString() {
-        return "앨범 [" +
-                "artistName='" + artistName + '\'' +
-                ", collectionName='" + collectionName + '\'' +
-                ", collectionPrice=" + collectionPrice +
-                ", releaseDate=" + releaseDate +
-                ", collectionId='" + collectionId + '\'' +
-                ", tracks=" + tracks +
-                ']';
-    }
 }
 
