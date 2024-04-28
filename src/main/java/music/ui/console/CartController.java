@@ -18,7 +18,7 @@ public class CartController {
         List<CartItem> cartItems = cartService.findAll();
         System.out.println("장바구니 ID | 앨범 이름 | 앨범 가격 | 수량");
         for (CartItem cartItem : cartItems) {
-            System.out.println(cartItem.getId() + " | " + cartItem.getAlbum().getCollectionName() + " | " + cartItem.getAlbum().getCollectionPrice() + " | " + cartItem.getQuantity());
+            System.out.println(cartItem.getId() + " | " + cartItem.getAlbum().getCollectionName() + " | " + cartItem.getAlbum().getCollectionPriceKRW() + " | " + cartItem.getQuantity());
         }
     }
 
