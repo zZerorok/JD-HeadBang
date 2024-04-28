@@ -1,4 +1,4 @@
-package music.comparable.sort.track;
+package music.sort.track;
 
 import music.domain.dto.TrackDTO;
 import java.util.Comparator;
