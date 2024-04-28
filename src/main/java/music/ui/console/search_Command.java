@@ -1,10 +1,9 @@
 package music.ui.console;
 
 public enum search_Command {
-    SHOW_ALBUM("1", "보유중인 엘범"),
-    SEARCH_BYSINGER("2", "가수검색"),
-    SEARCH_TITLE("3", "제목으로 검색"),
-    EXIT("0", "종료하기");
+    showAlbum("1", "보유중인 엘범"),
+    totalSearch("2", "통합검색"),
+    exit("0", "종료하기");
 
     private final String code;
     private final String title;

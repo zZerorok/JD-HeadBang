@@ -3,12 +3,14 @@ package music.ui.console;
 import music.application.CartService;
 import music.domain.CartItem;
 import music.ui.console.utils.InputUtils;
+import view.PrintList;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class CartController {
     private final CartService cartService;
+    private final PrintList pl = new PrintList();
 
     public CartController(CartService cartService) {
         this.cartService = cartService;
@@ -17,9 +19,11 @@ public class CartController {
     public void showCart() {
         List<CartItem> cartItems = cartService.findAll();
         System.out.println("장바구니 ID | 앨범 이름 | 앨범 가격 | 수량");
-        for (CartItem cartItem : cartItems) {
-            System.out.println(cartItem.getId() + " | " + cartItem.getAlbum().getCollectionName() + " | " + cartItem.getAlbum().getCollectionPrice() + " | " + cartItem.getQuantity());
-        }
+        pl.printCart(cartItems);
+        System.out.println("--------------------------------------");
+//        for (CartItem cartItem : cartItems) {
+//            System.out.println(cartItem.getId() + " | " + cartItem.getAlbum().getCollectionName() + " | " + cartItem.getAlbum().getCollectionPriceKRW() + " | " + cartItem.getQuantity());
+//        }
     }
 
     public void put() {

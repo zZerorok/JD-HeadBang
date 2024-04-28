@@ -12,7 +12,7 @@ public class Search {
     /*
      * 노래를 검색해 10개까지 리스트로 반환
      */
-    public List searchTracks(String keyword) {
+    public List<TrackDTO> searchTracks(String keyword) {
 
         String encodedParam;
 
@@ -57,7 +57,7 @@ public class Search {
      * 앨범 ID로 앨범 정보 조회
      */
     public AlbumDTO searchAlbum(String alBumId) {
-        String url = "https://itunes.apple.com/lookup?id="+alBumId+"&entity=song&lang=ko_kr";
+        String url = "https://itunes.apple.com/lookup?id=" + alBumId + "&entity=song&lang=ko_kr";
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build();

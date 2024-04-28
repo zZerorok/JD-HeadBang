@@ -7,9 +7,14 @@ import java.util.*;
 
 public class Database {
     List<AlbumDTO> albumList = new ArrayList<>();
+    List<TrackDTO> trackList = new ArrayList<>();
 
     public List<AlbumDTO> getAlbumList() {
         return albumList;
+    }
+
+    public List<TrackDTO> getTrackList() {
+        return trackList;
     }
 
     public Database() {
@@ -38,6 +43,10 @@ public class Database {
                 new AlbumDTO("(여자)아이들", "2", 7.99, "2023-05-15", "1725271942", Arrays.asList(track1, track2, track3)));
         albumList.add(
                 new AlbumDTO("뉴진스", "1", 8.00, "2023-07-21", "1695951888", Arrays.asList(track4, track5, track6)));
+
+        trackList.add(track1);
+        trackList.add(track2);
+        trackList.add(track3);
     }
 
     public List<AlbumDTO> find(List<String> albumIds) {

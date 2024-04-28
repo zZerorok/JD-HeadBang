@@ -13,4 +13,5 @@ module AudioPlayerModule {
     exports music.service;
     exports music.domain;
     opens music.domain to javafx.fxml;
+    opens music.domain.dto;
 }
