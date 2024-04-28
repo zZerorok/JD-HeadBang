@@ -9,9 +9,7 @@ import music.domain.dto.*;
 
 public class Search {
 
-    /*
-     * 노래를 검색해 10개까지 리스트로 반환
-     */
+    /* 노래를 검색해서 10개까지 리스트로 반환 */
     public List searchTracks(String keyword) {
 
         String encodedParam;
@@ -53,10 +51,7 @@ public class Search {
 
     }
 
-    /*
-     * 앨범 ID로 앨범 정보 조회
-     * 길이가 1인 albumDTO리스트 반환
-     */
+    /* 앨범 ID로 앨범 정보 조회 */
     public List<AlbumDTO> searchAlbum(String alBumId) {
         String url = "https://itunes.apple.com/lookup?id=" + alBumId + "&entity=song&lang=ko_kr";
 
@@ -88,9 +83,7 @@ public class Search {
         return albumList;
     }
 
-    /*
-     * TOP 50 조회
-     */
+    /* TOP 50 조회 */
     public List<HashMap<String,String>> searchTop50() {
 
         String url = "https://rss.applemarketingtools.com/api/v2/kr/music/most-played/50/songs.json";
