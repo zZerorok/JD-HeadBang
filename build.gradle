@@ -23,8 +23,8 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-    mainModule = 'Service'
-    mainClass = 'Service.AudioPlayer'
+    mainModule = 'music.service'
+    mainClass = 'music.service.AudioPlayer'
 }
 
 javafx {

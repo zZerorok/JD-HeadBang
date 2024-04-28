@@ -40,5 +40,8 @@ public class Database {
                 new AlbumDTO("뉴진스", "1", 8.00, "2023-07-21", "1695951888", Arrays.asList(track4, track5, track6)));
     }
 
+    public List<AlbumDTO> find(List<String> albumIds) {
+        return albumList; // TODO: 앨범 아이디 넣으면 찾아주는 기능 만들어주세요
+    }
 }
 

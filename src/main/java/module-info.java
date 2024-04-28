@@ -7,6 +7,6 @@ module AudioPlayerModule {
     requires org.kordamp.bootstrapfx.core;
 
     // 실제 패키지 이름으로 수정
-    opens Service to javafx.fxml;
-    exports Service;
+    opens music.service to javafx.fxml;
+    exports music.service;
 }
