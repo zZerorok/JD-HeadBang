@@ -111,9 +111,11 @@ public class Search {
             JsonObject innerJsonObject = element.getAsJsonObject();
             String artistName = innerJsonObject.get("artistName").getAsString();
             String trackName = innerJsonObject.get("name").getAsString();
+            String releaseDate = innerJsonObject.get("releaseDate").getAsString();
 
             track.put("artistName", artistName);
             track.put("trackName", trackName);
+            track.put("releaseDate", releaseDate);
 
             top50Tracks.add(track);
         }
