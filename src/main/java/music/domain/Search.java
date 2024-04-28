@@ -91,7 +91,7 @@ public class Search {
     /*
      * TOP 50 조회
      */
-    public List<TrackDTO> searchTop50() {
+    public List<HashMap<String,String>> searchTop50() {
 
         String url = "https://rss.applemarketingtools.com/api/v2/kr/music/most-played/50/songs.json";
         HttpClient client = HttpClient.newHttpClient();
@@ -116,9 +116,15 @@ public class Search {
         for (JsonElement element : resultsArray) {
             HashMap<String,String> track = new HashMap<>();
             JsonObject innerJsonObject = element.getAsJsonObject();
-            String trackName = innerJsonObject.get("title").getAsString();
+            String artistName = innerJsonObject.get("artistName").getAsString();
+            String trackName = innerJsonObject.get("name").getAsString();
+
+            track.put("artistName", artistName);
+            track.put("trackName", trackName);
+
+            top50Tracks.add(track);
         }
-            return null; // todo 리스트 반환
+            return top50Tracks;
     }
 
 }
