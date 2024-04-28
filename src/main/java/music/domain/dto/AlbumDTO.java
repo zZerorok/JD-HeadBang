@@ -16,11 +16,11 @@ public class AlbumDTO {
 
     private int quantity;
 
-    public AlbumDTO(String artistName, String collectionName, Double collectionPrice, String releaseDate,
+    public AlbumDTO(String artistName, String collectionName, Double collectionPriceUSD, String releaseDate,
                     String collectionId, List<TrackDTO> tracks) {
         this.artistName = artistName;
         this.collectionName = collectionName;
-        this.collectionPriceUSD = collectionPrice;
+        this.collectionPriceUSD = collectionPriceUSD;
         this.releaseDate = releaseDate;
         this.collectionId = collectionId;
         this.tackList = tracks;
@@ -29,7 +29,7 @@ public class AlbumDTO {
     public void init() {
         collectionPriceKRW = (int) Math.round(collectionPriceUSD * 1.3) * 1000;
 
-        quantity = (int) (Math.random() * 20);
+        quantity = (int) (Math.random() * 20); // 0~20
 
         releaseDate = releaseDate.substring(0, releaseDate.indexOf("T"));
 
@@ -76,6 +76,11 @@ public class AlbumDTO {
 
     public int getCollectionPriceKRW() {
         return collectionPriceKRW;
+    }
+
+    /* 앨범 재고 차감 */
+    public void decrementQuantity(int amount) {
+        quantity = Math.max(quantity - amount, 0);
     }
 }
 
