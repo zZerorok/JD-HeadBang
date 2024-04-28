@@ -1,26 +1,48 @@
 package music.domain.dto;
 
-import java.time.*;
 import java.util.*;
+import com.google.gson.annotations.*;
 
 public class AlbumDTO {
 
-    protected String artistName;
-    protected String collectionName;
-    protected Double collectionPrice;
-    protected LocalDate releaseDate;
-    protected String collectionId;
-    protected List<TrackDTO> tracks;
+    private String artistName;
+    private String collectionName;
+    @SerializedName("collectionPrice")
+    private Double collectionPriceUSD;
+    private String releaseDate;
+    private String collectionId;
+    private List<TrackDTO> tackList;
+    private int collectionPriceKRW;
+
+    private int quantity;
 
     public AlbumDTO(String artistName, String collectionName, Double collectionPrice, String releaseDate,
                     String collectionId, List<TrackDTO> tracks) {
         this.artistName = artistName;
         this.collectionName = collectionName;
-        this.collectionPrice = collectionPrice;
-        this.releaseDate = LocalDate.parse(releaseDate);
+        this.collectionPriceUSD = collectionPrice;
+        this.releaseDate = releaseDate;
         this.collectionId = collectionId;
-        this.tracks = tracks;
+        this.tackList = tracks;
     }
+
+    public void init() {
+        collectionPriceKRW = (int) Math.round(collectionPriceUSD * 1.3) * 1000;
+
+        quantity = (int) (Math.random() * 20);
+
+        releaseDate = releaseDate.substring(0, releaseDate.indexOf("T"));
+
+        if (tackList == null) {
+            tackList = new ArrayList<>();
+        }
+    }
+
+
+    public void addTrack(TrackDTO track) {
+        tackList.add(track);
+    }
+
 
     // Getters
     public String getArtistName() {
@@ -31,11 +53,11 @@ public class AlbumDTO {
         return collectionName;
     }
 
-    public double getCollectionPrice() {
-        return collectionPrice;
+    public double getCollectionPriceUSD() {
+        return collectionPriceUSD;
     }
 
-    public LocalDate getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
@@ -43,9 +65,17 @@ public class AlbumDTO {
         return collectionId;
     }
 
-    public List<TrackDTO> getTracks() {
-        return tracks;
+
+    public List<TrackDTO> getTrackTs() {
+        return tackList;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public int getCollectionPriceKRW() {
+        return collectionPriceKRW;
+    }
 }
 

@@ -1,14 +1,14 @@
 package music.domain.dto;
 
-import java.time.*;
+
 
 public class TrackDTO {
-    protected String artistName;
-    protected String trackName;
-    protected String previewUrl;
-    protected String primaryGenreName;
-    protected String collectionId;
-    protected LocalDate releaseDate;
+    private String artistName;
+    private String trackName;
+    private String previewUrl;
+    private String primaryGenreName;
+    private String collectionId;
+    private String releaseDate;
 
     public TrackDTO(String artistName, String trackName, String previewUrl, String primaryGenreName,
                     String releaseDate, String collectionId) {
@@ -16,10 +16,11 @@ public class TrackDTO {
         this.trackName = trackName;
         this.previewUrl = previewUrl;
         this.primaryGenreName = primaryGenreName;
-        this.releaseDate = LocalDate.parse(releaseDate);
+        this.releaseDate = releaseDate;
         this.collectionId = collectionId;
 
     }
+
 
 
     // getters
@@ -39,12 +40,11 @@ public class TrackDTO {
         return primaryGenreName;
     }
 
-    public LocalDate getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    @Override
-    public String toString() {
-        return trackName;
+    public String getCollectionId() {
+        return collectionId;
     }
 }
