@@ -55,9 +55,10 @@ public class Search {
 
     /*
      * 앨범 ID로 앨범 정보 조회
+     * 길이가 1인 albumDTO리스트 반환
      */
-    public AlbumDTO searchAlbum(String alBumId) {
-        String url = "https://itunes.apple.com/lookup?id="+alBumId+"&entity=song&lang=ko_kr";
+    public List<AlbumDTO> searchAlbum(String alBumId) {
+        String url = "https://itunes.apple.com/lookup?id=" + alBumId + "&entity=song&lang=ko_kr";
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build();
@@ -82,8 +83,44 @@ public class Search {
             TrackDTO trackDTO = gson.fromJson(resultsArray.get(i).getAsJsonObject(), TrackDTO.class);
             albumDTO.addTrack(trackDTO);
         }
+        List<AlbumDTO> albumList = Arrays.asList(albumDTO);
 
-        return albumDTO;
+        return albumList;
     }
+
+    /*
+     * TOP 50 조회
+     */
+    public List<TrackDTO> searchTop50() {
+
+        String url = "https://rss.applemarketingtools.com/api/v2/kr/music/most-played/50/songs.json";
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build();
+
+        String response = "";
+        Gson gson = new Gson();
+        List<TrackDTO> trackList = new ArrayList<>();
+
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        List<HashMap<String,String>> top50Tracks = new ArrayList<>();
+
+        JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
+        JsonObject feed = jsonObject.getAsJsonObject("feed");
+        JsonArray resultsArray = feed.getAsJsonArray("results");
+        for (JsonElement element : resultsArray) {
+            HashMap<String,String> track = new HashMap<>();
+            JsonObject innerJsonObject = element.getAsJsonObject();
+            String trackName = innerJsonObject.get("title").getAsString();
+        }
+            return null; // todo 리스트 반환
+    }
+
 }
+
 
