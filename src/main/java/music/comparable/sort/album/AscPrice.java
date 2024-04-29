@@ -7,18 +7,7 @@ import java.util.Comparator;
 public class AscPrice implements Comparator<AlbumDTO> {
     @Override
     public int compare(AlbumDTO o1, AlbumDTO o2) {
+        return (int) (o1.getCollectionPriceUSD() * 1377.93 - o2.getCollectionPriceUSD() * 1377.93);
 
-        int result = 0;
-
-        if(o1.getCollectionPriceKRW() - o2.getCollectionPriceKRW() > 0){
-            result = 1;
-        } else if (o1.getCollectionPriceKRW() - o2.getCollectionPriceKRW() < 0) {
-            result = -1;
-        }
-
-        return result;
-
-        //        Double result = o1.getCollectionPrice() - o2.getCollectionPrice();
-        //        return Integer.compare(result, 0);
     }
 }
