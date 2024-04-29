@@ -1,42 +1,35 @@
 package music.ui.console;
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import music.domain.CartItem;
 import music.domain.dto.AlbumDTO;
 import music.domain.dto.TrackDTO;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PrintList {
     public static String formatAlbum(AlbumDTO album) {
         StringBuilder sb = new StringBuilder();
         sb.append("가수 : ").append(album.getArtistName())
-                .append(", 앨범이름 : ").append(album.getCollectionName())
+                .append(", 엘범이름 : ").append(album.getCollectionName())
                 .append(", 가격 : ").append(album.getCollectionPriceKRW())
-                .append(", 노래목록 : [");
-
-        for (TrackDTO track : album.getTrackTs()) {
-            sb.append(formatTrack(track)).append(", ");
-        }
-
-        sb.append("]");
+                .append(", 노래목록 : ");
+        String tracks = album.getTrackTs().stream()
+                .map(PrintList::formatTrack)
+                .collect(Collectors.joining(", ", "[", "]"));
+        sb.append(tracks);
         return sb.toString();
     }
 
     public static String formatCart(CartItem item) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("장바구니 id : ").append(item.getId())
-                .append(", 앨범이름 : ").append(item.getAlbum().getCollectionName())
-                .append(", 앨범가격 : ").append(item.getAlbum().getCollectionPriceKRW());
-        return sb.toString();
+        return "장바구니 id : " + item.getId() +
+                ", 앨범이름 : " + item.getAlbum().getCollectionName() +
+                ", 앨범가격 : " + item.getAlbum().getCollectionPriceKRW();
     }
 
     public static String formatTrack(TrackDTO track) {
-        return track.getArtistName() + " - " + track.getTrackName();
+        return track.getArtistName() + " - " + track.getTrackName() + ", 앨범 ID: " + track.getCollectionId();
     }
 
     public List<TrackDTO> printTrack(List<TrackDTO> list) {
@@ -66,7 +59,7 @@ public class PrintList {
         return item;
     }
 
-    public void displayTopTracks(List<HashMap<String, String>> topTracks) {
+    public void displayTopTracks(List<TrackDTO> topTracks) {
         if (topTracks.isEmpty()) {
             System.out.println("No tracks available.");
             return;
@@ -74,20 +67,17 @@ public class PrintList {
 
         System.out.println("--------------------------------🎉🎊 TOP 50곡 🏆🎖️-------------------------------");
         System.out.println("⭐〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰〰️〰️〰️〰〰️〰️〰️⭐");
-        System.out.printf("%-30s %-40s %-15s%n", "가수", "노래이름", "발매날짜");
+        System.out.printf("%-30s %-40s %-15s %-15s%n", "가수", "노래이름", "발매날짜", "앨범 ID");
         System.out.println("⭐〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️⭐");
 
-        for (HashMap<String, String> track : topTracks) {
-            String artistName = track.get("artistName");
-            String trackName = track.get("trackName");
-            String releaseDate = track.get("releaseDate");
-
-            System.out.printf("%-30s %-40s %-15s%n", artistName, trackName, releaseDate);
+        for (TrackDTO track : topTracks) {
+            String artistName = track.getArtistName();
+            String trackName = track.getTrackName();
+            String releaseDate = track.getReleaseDate();
+            String albumId = track.getCollectionId();
+            System.out.printf("%-30s %-40s %-15s %-15s%n", artistName, trackName, releaseDate, albumId);
         }
 
         System.out.println("⭐〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰〰️〰️〰️〰〰️〰️〰️〰⭐");
     }
-
-
-
 }

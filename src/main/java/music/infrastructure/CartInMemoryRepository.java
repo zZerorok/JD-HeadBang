@@ -3,10 +3,13 @@ package music.infrastructure;
 import music.domain.CartItem;
 import music.domain.CartRepository;
 import music.domain.MyAlbum;
+import music.domain.Search;
 import music.domain.dto.AlbumDTO;
-import music.service.Database;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CartInMemoryRepository implements CartRepository {
     private int id = 0;
@@ -63,11 +66,11 @@ public class CartInMemoryRepository implements CartRepository {
     }
 
     @Override
-    public void buy(MyAlbum myAlbum, Database db) {
+    public void buy(MyAlbum myAlbum, Search search) {
         myAlbum.save(cartItemMap);
         cartItemMap.values().forEach(cartItem -> {
             String collectionId = cartItem.getAlbum().getCollectionId();
-            AlbumDTO foundAlbumDTO = db.findAlbumById(collectionId);
+            AlbumDTO foundAlbumDTO = search.searchAlbum(collectionId);
             int quantity = cartItem.getQuantity();
             foundAlbumDTO.decrementQuantity(quantity);
         });

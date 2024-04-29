@@ -3,26 +3,29 @@ package music.application;
 import music.domain.CartItem;
 import music.domain.CartRepository;
 import music.domain.MyAlbum;
+import music.domain.Search;
 import music.domain.dto.AlbumDTO;
-import music.service.Database;
 
 import java.util.List;
 
 public class CartService {
     private final CartRepository cartRepository;
-    private final Database database;
+    private final Search search;
 
-    public CartService(CartRepository cartRepository, Database database) {
+    public CartService(CartRepository cartRepository, Search search) {
         this.cartRepository = cartRepository;
-        this.database = database;
+        this.search = search;
     }
 
     public void put(List<String> albumIds) {
-        if (albumIds.isEmpty()) {
-            throw new IllegalArgumentException("하나 이상의 앨범을 담을 수 있습니다.");
+        List<AlbumDTO> albums = search.find(albumIds);
+        if (albumIds.size() != albums.size()) {
+            throw new IllegalArgumentException("요청 앨범 목록과 검색 결과가 일치하지 않습니다.");
+        }
+        if (albums.isEmpty()) {
+            throw new IllegalArgumentException("앨범 목록을 찾을 수 없습니다.");
         }
 
-        List<AlbumDTO> albums = database.find(albumIds);
         List<CartItem> items = albums.stream()
                 .map(CartItem::new)
                 .toList();
@@ -41,8 +44,9 @@ public class CartService {
         cartRepository.update(inputCartItemIds, quantity);
     }
 
-    public void buy(MyAlbum myAlbum, Database db) {
-        cartRepository.buy(myAlbum, db);
+    public void buy(MyAlbum myAlbum) {
+        // Search 사용
+        cartRepository.buy(myAlbum, search);
     }
 
     public int getTotalPrice() {

@@ -1,19 +1,16 @@
 package music.ui.console;
 
-import java.util.HashMap;
 import music.application.CartService;
-import music.comparable.sort.track.*;
-import music.comparable.sort.track50.AscArtistName;
-import music.comparable.sort.track50.AscReleaseDate;
-import music.comparable.sort.track50.AscTrackName;
-import music.comparable.sort.track50.DescArtistName;
-import music.comparable.sort.track50.DescReleaseDate;
-import music.comparable.sort.track50.DescTrackName;
+import music.comparable.sort.track.AscArtistName;
+import music.comparable.sort.track.AscReleaseDate;
+import music.comparable.sort.track.AscTrackName;
+import music.comparable.sort.track.DescArtistName;
+import music.comparable.sort.track.DescReleaseDate;
+import music.comparable.sort.track.DescTrackName;
 import music.domain.Search;
 import music.domain.dto.TrackDTO;
 import music.domain.MyAlbum;
 import music.infrastructure.CartInMemoryRepository;
-import music.service.Database;
 import music.ui.console.utils.InputUtils;
 
 import java.util.ArrayList;
@@ -22,16 +19,14 @@ import java.util.List;
 public class CommandHandler {
     private final CartController cartController;
     private final PrintList pl = new PrintList();
-    List<TrackDTO> result = new ArrayList<>();
+    private List<TrackDTO> result = new ArrayList<>();
 
-
-    private Database db = new Database();
-    private Search sh = new Search();
+    private final Search sh = new Search();
     private final MyAlbum myAlbum = new MyAlbum();
     private long money;
 
     public CommandHandler() {
-        CartService cartService = new CartService(new CartInMemoryRepository(), db);
+        CartService cartService = new CartService(new CartInMemoryRepository(), sh);
         cartController = new CartController(cartService);
         money = 100000;
     }
@@ -85,49 +80,46 @@ public class CommandHandler {
                                 switch (command4) {
                                     case RELEASEDATE_ASC -> {
                                         System.out.println("🔎 발매일이 오래된순부터 조회하기");
-                                        List<HashMap<String, String>> sortedTracks = sh.searchTop50();
+                                        List<TrackDTO> sortedTracks = sh.searchTop50();
                                         sortedTracks.sort(new DescReleaseDate());
                                         pl.displayTopTracks(sortedTracks);
 
                                     }
                                     case RELEASEDATE_DESC -> {
                                         System.out.println("🔎 발매일이 최신순부터 조회하기");
-                                        List<HashMap<String, String>> sortedTracks = sh.searchTop50();
+                                        List<TrackDTO> sortedTracks = sh.searchTop50();
                                         sortedTracks.sort(new AscReleaseDate());
                                         pl.displayTopTracks(sortedTracks);
 
                                     }
                                     case ARTISTNAME_DESC -> {
                                         System.out.println("🔎 가수이름 가나다순으로 조회하기");
-                                        List<HashMap<String, String>> sortedTracks = sh.searchTop50();
-                                        sortedTracks.sort(new DescArtistName());
+                                        List<TrackDTO> sortedTracks = sh.searchTop50();
+                                        sortedTracks.sort(new AscArtistName());
                                         pl.displayTopTracks(sortedTracks);
 
                                     }
 
                                     case ARTISTNAME_ASC -> {
                                         System.out.println("🔎 가수이름 역순으로 조회하기");
-                                        List<HashMap<String, String>> sortedTracks = sh.searchTop50();
-                                        sortedTracks.sort(new AscArtistName());
+                                        List<TrackDTO> sortedTracks = sh.searchTop50();
+                                        sortedTracks.sort(new DescArtistName());
                                         pl.displayTopTracks(sortedTracks);
-
                                     }
                                     case NAME_DESC -> {
                                         System.out.println("🔎 곡명 가나다순으로 조회하기");
-                                        List<HashMap<String, String>> sortedTracks = sh.searchTop50();
-                                        sortedTracks.sort(new DescTrackName());
+                                        List<TrackDTO> sortedTracks = sh.searchTop50();
+                                        sortedTracks.sort(new AscTrackName());
                                         pl.displayTopTracks(sortedTracks);
                                     }
                                     case NAME_ASC -> {
                                         System.out.println("🔎 곡명 역순으로 조회하기");
-                                        List<HashMap<String, String>> sortedTracks = sh.searchTop50();
-                                        sortedTracks.sort(new AscTrackName());
+                                        List<TrackDTO> sortedTracks = sh.searchTop50();
+                                        sortedTracks.sort(new DescTrackName());
                                         pl.displayTopTracks(sortedTracks);
                                     }
 
-                                    case EXIT -> {
-                                        System.out.println("메인메뉴로 돌아갑니다");
-                                    }
+                                    case EXIT -> System.out.println("메인메뉴로 돌아갑니다");
                                 }
                             }
                         }
@@ -172,7 +164,7 @@ public class CommandHandler {
                         System.out.println("장바구니에 담은 앨범을 구매합니다.");
                         int totalPrice = cartController.getTotalPrice(); // 장바구니에 담긴 앨범들의 총 금액
                         if (money >= totalPrice) {
-                            cartController.buy(myAlbum, db);
+                            cartController.buy(myAlbum);
                             money -= totalPrice;
                         }
                     }

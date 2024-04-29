@@ -1,7 +1,9 @@
 package music.domain.dto;
 
-import java.util.*;
-import com.google.gson.annotations.*;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AlbumDTO {
 
@@ -11,7 +13,7 @@ public class AlbumDTO {
     private Double collectionPriceUSD;
     private String releaseDate;
     private String collectionId;
-    private List<TrackDTO> tackList;
+    private List<TrackDTO> tackList = new ArrayList<>();
     private int collectionPriceKRW;
     private int quantity;
 
@@ -31,9 +33,8 @@ public class AlbumDTO {
         quantity = (int) (Math.random() * 20); // 0~20
 
         releaseDate = releaseDate.substring(0, releaseDate.indexOf("T"));
-
-        if (tackList == null) {
-            tackList = new ArrayList<>();
+        if (this.tackList == null) {
+            this.tackList = new ArrayList<>();
         }
     }
 
@@ -41,7 +42,6 @@ public class AlbumDTO {
     public void addTrack(TrackDTO track) {
         tackList.add(track);
     }
-
 
     // Getters
     public String getArtistName() {

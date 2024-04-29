@@ -1,15 +1,13 @@
 package music.ui.console;
 
-import java.util.ArrayList;
 import music.application.CartService;
-import music.comparable.sort.album.DescCollectionName;
-import music.domain.CartItem;
 import music.domain.MyAlbum;
-import music.service.Database;
 import music.ui.console.utils.InputUtils;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CartController {
     private final CartService cartService;
@@ -20,18 +18,18 @@ public class CartController {
     }
 
     public void showCart() {
-        List<CartItem> cartItems = cartService.findAll();
         System.out.println("장바구니 ID | 앨범 이름 | 앨범 가격 | 수량");
-
-        for(CartItem cartItem : cartItems) {
-
-        }
-
-        pl.printCart(cartItems);
-        System.out.println("--------------------------------------");
-//        for (CartItem cartItem : cartItems) {
-//            System.out.println(cartItem.getId() + " | " + cartItem.getAlbum().getCollectionName() + " | " + cartItem.getAlbum().getCollectionPriceKRW() + " | " + cartItem.getQuantity());
-//        }
+        String cartItems = cartService.findAll()
+                .stream()
+                .map(it ->
+                        MessageFormat.format("  {0}  |  {1}  |  {2}  |  {3}  ",
+                                it.getId(),
+                                it.getAlbum().getCollectionName(),
+                                it.getAlbum().getCollectionPriceKRW(),
+                                it.getQuantity()
+                        )
+                ).collect(Collectors.joining(System.lineSeparator()));
+        System.out.println(cartItems);
     }
 
     public void put() {
@@ -53,8 +51,8 @@ public class CartController {
         System.out.println("선택한 장바구니 목록을 비웠습니다.");
     }
 
-    public void buy(MyAlbum myAlbum, Database db) {
-        cartService.buy(myAlbum, db);
+    public void buy(MyAlbum myAlbum) {
+        cartService.buy(myAlbum);
     }
 
     public void update() {
