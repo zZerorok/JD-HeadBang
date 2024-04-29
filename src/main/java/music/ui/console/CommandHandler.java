@@ -1,6 +1,12 @@
 package music.ui.console;
 
 import music.application.CartService;
+import music.comparable.sort.track.AscArtistName;
+import music.comparable.sort.track.AscReleaseDate;
+import music.comparable.sort.track.AscTrackName;
+import music.comparable.sort.track.DescArtistName;
+import music.comparable.sort.track.DescReleaseDate;
+import music.comparable.sort.track.DescTrackName;
 import music.domain.Search;
 import music.domain.dto.TrackDTO;
 import music.domain.MyAlbum;
@@ -36,7 +42,7 @@ public class CommandHandler {
             System.out.println(command.getCode() + ". " + command.getTitle());
         }
 
-        String inputCommand = InputUtils.nextLine("메뉴를 입력하세요");
+        String inputCommand = InputUtils.nextLine("메뉴를 입력하세요.");
         Command command = Command.from(inputCommand);
 
         switch (command) {
@@ -60,7 +66,7 @@ public class CommandHandler {
                             System.out.println(song_Command.getCode() + ". " + song_Command.getTitle());
                         }
 
-                        String inputSongCommand = InputUtils.nextLine("메뉴를 입력하세요");
+                        String inputSongCommand = InputUtils.nextLine("메뉴를 입력하세요.");
                         SongCommand command3 = SongCommand.from(inputSongCommand);
 
                         switch (command3) {
@@ -70,28 +76,51 @@ public class CommandHandler {
                                 for (SortCommand sort_Command : SortCommand.values()) {
                                     System.out.println(sort_Command.getCode() + ". " + sort_Command.getTitle());
                                 }
-                                String inputsortCommand = InputUtils.nextLine("메뉴를 입력하세요");
+                                String inputsortCommand = InputUtils.nextLine("메뉴를 입력하세요.");
                                 SortCommand command4 = SortCommand.from(inputsortCommand);
                                 switch (command4) {
                                     case RELEASEDATE_ASC -> {
-                                        System.out.println("발매일 오름차순");
+                                        System.out.println("[발매일 오름차순]");
+                                        db.getTrackList().sort(new AscReleaseDate());
+                                        System.out.println(db.getTrackList());
+
                                     }
                                     case RELEASEDATE_DESC -> {
-                                        System.out.println("발매일 내림차순");
+                                        System.out.println("[발매일 내림차순]");
+                                        db.getTrackList().sort(new DescReleaseDate());
+                                        System.out.println(db.getTrackList());
+
                                     }
                                     case ARTISTNAME_ASC -> {
-                                        System.out.println("가수이름 오름차순");
+                                        System.out.println("[가수이름 오름차순]");
+                                        db.getTrackList().sort(new AscArtistName());
+                                        System.out.println(db.getTrackList());
+
                                     }
                                     case ARTISTNAME_DESC -> {
-                                        System.out.println("가수이름 내림차순");
+                                        System.out.println("[가수이름 내림차순]");
+                                        db.getTrackList().sort(new DescArtistName());
+                                        System.out.println(db.getTrackList());
+
                                     }
+                                    case NAME_ASC -> {
+                                        System.out.println("[곡명 오름차순]");
+                                        db.getTrackList().sort(new AscTrackName());
+                                        System.out.println(db.getTrackList());
+                                    }
+                                    case NAME_DESC -> {
+                                        System.out.println("[곡명 내림차순]");
+                                        db.getTrackList().sort(new DescTrackName());
+                                        System.out.println(db.getTrackList());
+                                    }
+
                                     case EXIT -> {
                                         System.out.println("메인메뉴로 돌아갑니다");
                                     }
                                 }
                             }
                             case SHOW_ALBUM -> {
-                                System.out.println("어떤 곡의 엘범을 보고싶나요 : ");
+                                System.out.println("어떤 곡의 앨범을 보고싶나요 : ");
                                 pl.printTrack(result);
                                 System.out.print("번호를 선택해주세요 : ");
                                 String number = InputUtils.nextLine();
@@ -117,18 +146,18 @@ public class CommandHandler {
                         System.out.println(purchase_Command.getCode() + ". " + purchase_Command.getTitle());
                     }
 
-                    String inputCartCommand = InputUtils.nextLine("장바구니 메뉴를 입력해 주세요");
+                    String inputCartCommand = InputUtils.nextLine("장바구니 메뉴를 입력해 주세요.");
                     PurchaseCommand cartCommand = PurchaseCommand.from(inputCartCommand);
 
                     switch (cartCommand) {
                         case PUT -> cartController.put();
                         case CANCEL -> cartController.cancel();
                         case CHANGE_AMOUNT -> {
-                            System.out.println("수량을 변경합니다");
+                            System.out.println("수량을 변경합니다.");
                             cartController.update();
                         }
                         case PURCHASE -> {
-                            System.out.println("장바구니에 담은 앨범을 구매합니다");
+                            System.out.println("장바구니에 담은 앨범을 구매합니다.");
                             int totalPrice = cartController.getTotalPrice(); // 장바구니에 담긴 앨범들의 총 금액
                             if (money >= totalPrice) {
                                 cartController.buy(myAlbum, db);
@@ -136,7 +165,7 @@ public class CommandHandler {
                             }
                         }
                         case EXIT -> {
-                            System.out.println("메인메뉴로 돌아갑니다");
+                            System.out.println("메인메뉴로 돌아갑니다.");
                         }
                     }
                 }

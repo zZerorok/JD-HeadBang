@@ -5,6 +5,8 @@ public enum SortCommand {
     RELEASEDATE_DESC("2", "발매일 내림차순"),
     ARTISTNAME_ASC("3", "가수이름 오름차순"),
     ARTISTNAME_DESC("4", "가수이름 내림차순"),
+    NAME_ASC("5", "곡명 오름차순"),
+    NAME_DESC("6", "곡명 내림차순"),
     EXIT("0", "종료하기");
 
     private final String code;
