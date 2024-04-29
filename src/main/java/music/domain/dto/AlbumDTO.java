@@ -15,11 +15,11 @@ public class AlbumDTO {
     private int collectionPriceKRW;
     private int quantity;
 
-    public AlbumDTO(String artistName, String collectionName, Double collectionPrice, String releaseDate,
+    public AlbumDTO(String artistName, String collectionName, Double collectionPriceUSD, String releaseDate,
                     String collectionId, List<TrackDTO> tracks) {
         this.artistName = artistName;
         this.collectionName = collectionName;
-        this.collectionPriceUSD = collectionPrice;
+        this.collectionPriceUSD = collectionPriceUSD;
         this.releaseDate = releaseDate;
         this.collectionId = collectionId;
         this.tackList = tracks;
@@ -75,6 +75,25 @@ public class AlbumDTO {
 
     public int getCollectionPriceKRW() {
         return collectionPriceKRW;
+    }
+
+
+    @Override
+    public String toString() {
+        return "AlbumDTO{" +
+                "artistName='" + artistName + '\'' +
+                ", collectionName='" + collectionName + '\'' +
+                ", collectionPriceUSD=" + collectionPriceUSD +
+                ", releaseDate='" + releaseDate + '\'' +
+                ", collectionId='" + collectionId + '\'' +
+                ", tackList=" + tackList +
+                ", collectionPriceKRW=" + collectionPriceKRW +
+                ", quantity=" + quantity +
+                '}';
+    }
+
+    public void decrementQuantity(int amount) {
+        quantity = Math.max(quantity-amount,0);
     }
 }
 

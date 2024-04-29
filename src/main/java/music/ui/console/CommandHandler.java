@@ -3,6 +3,7 @@ package music.ui.console;
 import music.application.CartService;
 import music.domain.Search;
 import music.domain.dto.TrackDTO;
+import music.domain.MyAlbum;
 import music.infrastructure.CartInMemoryRepository;
 import music.service.Database;
 import music.ui.console.utils.InputUtils;
@@ -19,10 +20,14 @@ public class CommandHandler {
 
     private Database db = new Database();
     private Search sh = new Search();
+    private final Database db = new Database();
+    private final MyAlbum myAlbum = new MyAlbum();
+    private long money;
 
     public CommandHandler() {
         CartService cartService = new CartService(new CartInMemoryRepository(), db);
-        this.cartController = new CartController(cartService);
+        cartController = new CartController(cartService);
+        money = 100000;
     }
 
     public void run() {
@@ -48,7 +53,6 @@ public class CommandHandler {
                     case showAlbum -> {
                         System.out.println("가지고있는 엘범 목록입니다.");
                     }
-
                     case totalSearch -> {
                         System.out.print("통합으로 검색합니다 : ");
                         String search = InputUtils.nextLine();
@@ -109,9 +113,8 @@ public class CommandHandler {
                     case exit -> {
                         System.out.println("메인메뉴로 돌아갑니다");
                     }
-                }
             }
-            case cart -> {
+            case CART -> {
                 cartController.showCart();
                 for (purchase_Command purchase_Command : purchase_Command.values()) {
                     System.out.println(purchase_Command.getCode() + ". " + purchase_Command.getTitle());
@@ -120,14 +123,24 @@ public class CommandHandler {
                 String inputCartCommand = InputUtils.nextLine("장바구니 메뉴를 입력해 주세요");
                 purchase_Command cartCommand = purchase_Command.from(inputCartCommand);
                 switch (cartCommand) {
-                    case purchase -> System.out.println("구매합니다");
-                    case changeAmount -> System.out.println("장바구니 수량 변경합니다.");
-                    case put -> cartController.put();
-                    case cancel -> cartController.cancel();
-                    case exit -> System.out.println("메인메뉴로 돌아갑니다");
+                    case PUT -> cartController.put();
+                    case CANCEL -> cartController.cancel();
+                    case CHANGE_AMOUNT -> {
+                        System.out.println("수량을 변경합니다");
+                        cartController.update();
+                    }
+                    case PURCHASE -> {
+                        System.out.println("장바구니에 담은 앨범을 구매합니다");
+                        int totalPrice = cartController.getTotalPrice(); // 장바구니에 담긴 앨범들의 총 금액
+                        if (money >= totalPrice) {
+                            cartController.buy(myAlbum, db);
+                            money -= totalPrice;
+                        }
+                    }
+                    case EXIT -> System.out.println("메인메뉴로 돌아갑니다");
                 }
             }
-            case exit -> {
+            case EXIT -> {
                 System.out.println("종료합니다.");
                 System.exit(0);
             }
