@@ -1,22 +1,23 @@
-package view;
+package music.ui.console;
 
 
 import music.domain.CartItem;
 import music.domain.dto.AlbumDTO;
 import music.domain.dto.TrackDTO;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class PrintList {
     public static String formatAlbum(AlbumDTO album) {
         StringBuilder sb = new StringBuilder();
         sb.append("가수 : ").append(album.getArtistName())
-                .append(", 엘범이름 : ").append(album.getCollectionName())
+                .append(", 앨범이름 : ").append(album.getCollectionName())
                 .append(", 가격 : ").append(album.getCollectionPriceKRW())
                 .append(", 노래목록 : [");
 
         for (TrackDTO track : album.getTrackTs()) {
-            sb.append(formattrack(track)).append(", ");
+            sb.append(formatTrack(track)).append(", ");
         }
 
         sb.append("]");
@@ -31,7 +32,7 @@ public class PrintList {
         return sb.toString();
     }
 
-    public static String formattrack(TrackDTO track) {
+    public static String formatTrack(TrackDTO track) {
         return track.getArtistName() + " - " + track.getTrackName();
     }
 
@@ -41,7 +42,7 @@ public class PrintList {
         } else {
             for (int i = 0; i < list.size(); i++) {
                 TrackDTO track = list.get(i);
-                System.out.println((i + 1) + ". " + formattrack(track)); // 트랙 번호와 내용 출력
+                System.out.println((i + 1) + ". " + formatTrack(track)); // 트랙 번호와 내용 출력
             }
         }
         return list;
@@ -61,5 +62,28 @@ public class PrintList {
         }
         return item;
     }
+
+    public void displayTopTracks(List<HashMap<String, String>> topTracks) {
+        if (topTracks.isEmpty()) {
+            System.out.println("No tracks available.");
+            return;
+        }
+
+        System.out.println("Top 50 Tracks:");
+        System.out.println("----------------------------------------------------------------------------------");
+        System.out.printf("%-30s %-40s %-15s%n", "가수", "노래이름", "발매날짜");
+        System.out.println("----------------------------------------------------------------------------------");
+
+        for (HashMap<String, String> track : topTracks) {
+            String artistName = track.get("artistName");
+            String trackName = track.get("trackName");
+            String releaseDate = track.get("releaseDate");
+
+            System.out.printf("%-30s %-40s %-15s%n", artistName, trackName, releaseDate);
+        }
+
+        System.out.println("----------------------------------------------------------------------------------");
+    }
+
 
 }
