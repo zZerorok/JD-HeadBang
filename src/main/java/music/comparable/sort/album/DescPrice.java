@@ -6,13 +6,6 @@ import java.util.Comparator;
 public class DescPrice implements Comparator<AlbumDTO> {
     @Override
     public int compare(AlbumDTO o1, AlbumDTO o2) {
-        int result = 0;
-
-        if(o2.getCollectionPriceKRW() > o1.getCollectionPriceKRW()){
-            result = 1;
-        } else if(o2.getCollectionPriceKRW() < o1.getCollectionPriceKRW()) {
-            result = -1;
-        }
-        return result;
+        return (int) (o2.getCollectionPriceUSD() * 1377.93 - o1.getCollectionPriceUSD() * 1377.93);
     }
 }
