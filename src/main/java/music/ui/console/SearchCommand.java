@@ -1,7 +1,7 @@
 package music.ui.console;
 
 public enum SearchCommand {
-    SHOW_ALBUM("1", "보유중인 엘범"),
+    SHOW_ALBUM("1", "새로들어온 노래"),
     TOTAL_SEARCH("2", "검색"),
     EXIT("0", "종료하기");
 

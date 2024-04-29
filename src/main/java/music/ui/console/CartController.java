@@ -5,10 +5,8 @@ import music.application.CartService;
 import music.comparable.sort.album.DescCollectionName;
 import music.domain.CartItem;
 import music.domain.MyAlbum;
-import music.domain.dto.AlbumDTO;
 import music.service.Database;
 import music.ui.console.utils.InputUtils;
-import view.PrintList;
 
 import java.util.Arrays;
 import java.util.List;
