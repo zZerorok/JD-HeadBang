@@ -1,6 +1,8 @@
 package music.ui.console;
 
+import java.util.ArrayList;
 import music.application.CartService;
+import music.comparable.sort.album.DescCollectionName;
 import music.domain.CartItem;
 import music.domain.MyAlbum;
 import music.service.Database;
@@ -20,6 +22,11 @@ public class CartController {
     public void showCart() {
         List<CartItem> cartItems = cartService.findAll();
         System.out.println("장바구니 ID | 앨범 이름 | 앨범 가격 | 수량");
+
+        for(CartItem cartItem : cartItems) {
+
+        }
+
         pl.printCart(cartItems);
         System.out.println("--------------------------------------");
 //        for (CartItem cartItem : cartItems) {
