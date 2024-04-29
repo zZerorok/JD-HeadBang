@@ -6,6 +6,7 @@ import music.domain.dto.AlbumDTO;
 import music.domain.dto.TrackDTO;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PrintList {
     public static String formatAlbum(AlbumDTO album) {
@@ -13,22 +14,18 @@ public class PrintList {
         sb.append("가수 : ").append(album.getArtistName())
                 .append(", 엘범이름 : ").append(album.getCollectionName())
                 .append(", 가격 : ").append(album.getCollectionPriceKRW())
-                .append(", 노래목록 : [");
-
-        for (TrackDTO track : album.getTrackTs()) {
-            sb.append(formatTrack(track)).append(", ");
-        }
-
-        sb.append("]");
+                .append(", 노래목록 : ");
+        String tracks = album.getTrackTs().stream()
+                .map(PrintList::formatTrack)
+                .collect(Collectors.joining(", ", "[", "]"));
+        sb.append(tracks);
         return sb.toString();
     }
 
     public static String formatCart(CartItem item) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("장바구니 id : ").append(item.getId())
-                .append(", 앨범이름 : ").append(item.getAlbum().getCollectionName())
-                .append(", 앨범가격 : ").append(item.getAlbum().getCollectionPriceKRW());
-        return sb.toString();
+        return "장바구니 id : " + item.getId() +
+                ", 앨범이름 : " + item.getAlbum().getCollectionName() +
+                ", 앨범가격 : " + item.getAlbum().getCollectionPriceKRW();
     }
 
     public static String formatTrack(TrackDTO track) {
@@ -78,13 +75,9 @@ public class PrintList {
             String trackName = track.getTrackName();
             String releaseDate = track.getReleaseDate();
             String albumId = track.getCollectionId();
-
             System.out.printf("%-30s %-40s %-15s %-15s%n", artistName, trackName, releaseDate, albumId);
         }
 
         System.out.println("⭐〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰〰️〰️〰️〰〰️〰️〰️〰⭐");
     }
-
-
-
 }
