@@ -7,6 +7,7 @@ module AudioPlayerModule {
     requires org.kordamp.bootstrapfx.core;
     requires com.google.gson;
     requires java.net.http;
+    opens music.domain.dto to com.google.gson;
 
     // 실제 패키지 이름으로 수정
     opens music.service to javafx.fxml;

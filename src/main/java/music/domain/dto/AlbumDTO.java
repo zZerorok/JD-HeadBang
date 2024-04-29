@@ -28,7 +28,7 @@ public class AlbumDTO {
     public void init() {
         collectionPriceKRW = (int) Math.round(collectionPriceUSD * 1.3) * 1000;
 
-        quantity = (int) (Math.random() * 20);
+        quantity = (int) (Math.random() * 20); // 0~20
 
         releaseDate = releaseDate.substring(0, releaseDate.indexOf("T"));
 
@@ -78,6 +78,12 @@ public class AlbumDTO {
     }
 
 
+    /* 앨범 재고 차감 */
+    public void decrementQuantity(int amount) {
+        quantity = Math.max(quantity - amount, 0);
+
+    }
+
     @Override
     public String toString() {
         return "AlbumDTO{" +
@@ -90,10 +96,8 @@ public class AlbumDTO {
                 ", collectionPriceKRW=" + collectionPriceKRW +
                 ", quantity=" + quantity +
                 '}';
-    }
 
-    public void decrementQuantity(int amount) {
-        quantity = Math.max(quantity-amount,0);
+
     }
 }
 

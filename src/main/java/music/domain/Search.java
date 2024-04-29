@@ -9,10 +9,7 @@ import music.domain.dto.*;
 
 public class Search {
 
-    /*
-     * 노래를 검색해 10개까지 리스트로 반환
-     */
-    public List<TrackDTO> searchTracks(String keyword) {
+public List<TrackDTO> searchTracks(String keyword) {
 
         String encodedParam;
 
@@ -85,5 +82,46 @@ public class Search {
 
         return albumDTO;
     }
+
+    /** TOP 50 조회 */
+    public List<HashMap<String,String>> searchTop50() {
+
+        String url = "https://rss.applemarketingtools.com/api/v2/kr/music/most-played/50/songs.json";
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build();
+
+        String response = "";
+        Gson gson = new Gson();
+        List<TrackDTO> trackList = new ArrayList<>();
+
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        List<HashMap<String,String>> top50Tracks = new ArrayList<>();
+
+        JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
+        JsonObject feed = jsonObject.getAsJsonObject("feed");
+        JsonArray resultsArray = feed.getAsJsonArray("results");
+        for (JsonElement element : resultsArray) {
+            HashMap<String,String> track = new HashMap<>();
+            JsonObject innerJsonObject = element.getAsJsonObject();
+            String artistName = innerJsonObject.get("artistName").getAsString();
+            String trackName = innerJsonObject.get("name").getAsString();
+            String releaseDate = innerJsonObject.get("releaseDate").getAsString();
+
+            track.put("artistName", artistName);
+            track.put("trackName", trackName);
+            track.put("releaseDate", releaseDate);
+
+            top50Tracks.add(track);
+        }
+            return top50Tracks;
+    }
+
 }
+
 
