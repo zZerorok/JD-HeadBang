@@ -2,6 +2,9 @@ package music.ui.console;
 
 import music.application.CartService;
 import music.domain.CartItem;
+import music.domain.MyAlbum;
+import music.domain.dto.AlbumDTO;
+import music.service.Database;
 import music.ui.console.utils.InputUtils;
 
 import java.util.Arrays;
@@ -18,7 +21,7 @@ public class CartController {
         List<CartItem> cartItems = cartService.findAll();
         System.out.println("장바구니 ID | 앨범 이름 | 앨범 가격 | 수량");
         for (CartItem cartItem : cartItems) {
-            System.out.println(cartItem.getId() + " | " + cartItem.getAlbum().getCollectionName() + " | " + cartItem.getAlbum().getCollectionPrice() + " | " + cartItem.getQuantity());
+            System.out.println(cartItem.getId() + " | " + cartItem.getAlbum().getCollectionName() + " | " + cartItem.getAlbum().getCollectionPriceKRW() + " | " + cartItem.getQuantity());
         }
     }
 
@@ -41,7 +44,18 @@ public class CartController {
         System.out.println("선택한 장바구니 목록을 비웠습니다.");
     }
 
-    public void buy() {
-        // TODO: 창연님 기능 구현
+    public void buy(MyAlbum myAlbum, Database db) {
+        cartService.buy(myAlbum, db);
+    }
+
+    public void update() {
+        int inputCartItemIds = Integer.parseInt(InputUtils.nextLine("장바구니 번호를 입력해 주세요."));
+        int quantity = Integer.parseInt(InputUtils.nextLine("변경하려는 개수를 입력해 주세요."));
+        cartService.update(inputCartItemIds, quantity);
+        System.out.println("선택한 장바구니 개수를 변경했습니다.");
+    }
+
+    public int getTotalPrice() {
+        return cartService.getTotalPrice();
     }
 }

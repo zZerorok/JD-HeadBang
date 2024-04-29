@@ -10,9 +10,9 @@ public class AscPrice implements Comparator<AlbumDTO> {
 
         int result = 0;
 
-        if(o1.getCollectionPrice() - o2.getCollectionPrice() > 0){
+        if(o1.getCollectionPriceKRW() - o2.getCollectionPriceKRW() > 0){
             result = 1;
-        } else if (o1.getCollectionPrice() - o2.getCollectionPrice() < 0) {
+        } else if (o1.getCollectionPriceKRW() - o2.getCollectionPriceKRW() < 0) {
             result = -1;
         }
 

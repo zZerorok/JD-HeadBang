@@ -5,6 +5,7 @@ public enum Command {
     SEARCH_ALBUM("2", "검색"),
     CART("3", "장바구니"),
     BUY_ALBUM("5", "구매하기"),
+    SHOW_MY_ALBUM("6", "보유한 앨범 보기"),
     EXIT("0", "종료하기")
     ;
 

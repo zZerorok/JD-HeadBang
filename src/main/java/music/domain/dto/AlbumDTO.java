@@ -78,9 +78,27 @@ public class AlbumDTO {
         return collectionPriceKRW;
     }
 
+
     /* 앨범 재고 차감 */
     public void decrementQuantity(int amount) {
         quantity = Math.max(quantity - amount, 0);
+
+    }
+
+    @Override
+    public String toString() {
+        return "AlbumDTO{" +
+                "artistName='" + artistName + '\'' +
+                ", collectionName='" + collectionName + '\'' +
+                ", collectionPriceUSD=" + collectionPriceUSD +
+                ", releaseDate='" + releaseDate + '\'' +
+                ", collectionId='" + collectionId + '\'' +
+                ", tackList=" + tackList +
+                ", collectionPriceKRW=" + collectionPriceKRW +
+                ", quantity=" + quantity +
+                '}';
+
+
     }
 }
 
