@@ -2,6 +2,9 @@ package music.infrastructure;
 
 import music.domain.CartItem;
 import music.domain.CartRepository;
+import music.domain.MyAlbum;
+import music.domain.dto.AlbumDTO;
+import music.service.Database;
 
 import java.util.*;
 
@@ -49,5 +52,26 @@ public class CartInMemoryRepository implements CartRepository {
     @Override
     public List<CartItem> findAll() {
         return new ArrayList<>(cartItemMap.values());
+    }
+
+
+    @Override
+    public void update(int inputCartItemIds, int quantity) {
+        CartItem cartItem = cartItemMap.get(inputCartItemIds);
+        cartItem.setQuantity(quantity);
+        cartItemMap.put(inputCartItemIds, cartItem);
+    }
+
+    @Override
+    public void buy(MyAlbum myAlbum, Database db) {
+        myAlbum.save(cartItemMap);
+        cartItemMap.values().forEach(cartItem -> {
+            String collectionId = cartItem.getAlbum().getCollectionId();
+            AlbumDTO foundAlbumDTO = db.findAlbumById(collectionId);
+            int quantity = cartItem.getQuantity();
+            foundAlbumDTO.decrementQuantity(quantity);
+        });
+        id = 0;
+        cartItemMap.clear();
     }
 }
