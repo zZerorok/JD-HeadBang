@@ -8,8 +8,12 @@ import com.google.gson.*;
 import music.domain.dto.*;
 
 public class Search {
-
-public List<TrackDTO> searchTracks(String keyword) {
+    /**
+     * 노래를 검색해서 10개까지 리스트 반환
+     * @param keyword
+     * @return TrackList
+     */
+    public List<TrackDTO> searchTracks(String keyword) {
 
         String encodedParam;
 

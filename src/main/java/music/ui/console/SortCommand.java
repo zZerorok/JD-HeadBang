@@ -1,16 +1,16 @@
 package music.ui.console;
 
-public enum sort_Command {
-    sortByReleaseDateASC("1", "발매일 오름차순"),
-    sortByReleaseDateDESC("2", "발매일 내림차순"),
-    sortByArtistNameASC("3", "가수이름 오름차순"),
-    sortByArtistNameDESC("4", "가수이름 내림차순"),
-    exit("0", "종료하기");
+public enum SortCommand {
+    RELEASEDATE_ASC("1", "발매일 오름차순"),
+    RELEASEDATE_DESC("2", "발매일 내림차순"),
+    ARTISTNAME_ASC("3", "가수이름 오름차순"),
+    ARTISTNAME_DESC("4", "가수이름 내림차순"),
+    EXIT("0", "종료하기");
 
     private final String code;
     private final String title;
 
-    sort_Command(String code, String title) {
+    SortCommand(String code, String title) {
         this.code = code;
         this.title = title;
     }
@@ -22,8 +22,8 @@ public enum sort_Command {
         return title;
     }
 
-    public static sort_Command from(String code) {
-        for (sort_Command sort_Command : values()) {
+    public static SortCommand from(String code) {
+        for (SortCommand sort_Command : values()) {
             if (sort_Command.code.equals(code)) {
                 return sort_Command;
             }
