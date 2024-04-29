@@ -1,11 +1,11 @@
 package music.ui.console;
 
 public enum purchase_Command {
-    PURCHASE("1", "구매"),
-    CHANGE_AMOUNT("2", "수량변경"),
-    PUT("3", "장바구니 담기"),
-    CANCEL("4", "장바구니 목록 제거"),
-    EXIT("0", "취소하기");
+    purchase("1", "구매"),
+    changeAmount("2", "수량변경"),
+    put("3", "장바구니 담기"),
+    cancel("4", "장바구니 목록 제거"),
+    exit("0", "취소하기");
 
     private final String code;
     private final String title;

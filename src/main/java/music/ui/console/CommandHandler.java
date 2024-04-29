@@ -1,15 +1,25 @@
 package music.ui.console;
 
 import music.application.CartService;
+import music.domain.Search;
+import music.domain.dto.TrackDTO;
 import music.domain.MyAlbum;
 import music.infrastructure.CartInMemoryRepository;
 import music.service.Database;
 import music.ui.console.utils.InputUtils;
 import view.PrintList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CommandHandler {
     private final CartController cartController;
     private final PrintList pl = new PrintList();
+    List<TrackDTO> result = new ArrayList<>();
+
+
+    private Database db = new Database();
+    private Search sh = new Search();
     private final Database db = new Database();
     private final MyAlbum myAlbum = new MyAlbum();
     private long money;
@@ -21,7 +31,6 @@ public class CommandHandler {
     }
 
     public void run() {
-        boolean isRunning = true;
         // 메인메뉴 커맨드
         System.out.println("뱅뱅뮤직스토어에 온걸 환영합니다");
         for (Command command : Command.values()) {
@@ -32,32 +41,78 @@ public class CommandHandler {
         Command command = Command.from(inputCommand);
 
         switch (command) {
-            case SHOW_ALBUM -> {
-                System.out.println("이번에 들어온 노래 : ");
-                pl.printAllList(db.getAlbumList());
-            }
-            case SEARCH_ALBUM -> {
+            case searchAlbum -> {
                 for (search_Command search_Command : search_Command.values()) {
                     System.out.println(search_Command.getCode() + ". " + search_Command.getTitle());
                 }
 
-                String inputSearchCommand = InputUtils.nextLine();
+                String inputSearchCommand = InputUtils.nextLine("메뉴를 입력하세요");
                 search_Command command2 = search_Command.from(inputSearchCommand);
 
                 switch (command2) {
-                    case SHOW_ALBUM -> {
+                    case showAlbum -> {
                         System.out.println("가지고있는 엘범 목록입니다.");
                     }
-                    case SEARCH_BYSINGER -> {
-                        System.out.println("가수로 검색합니다");
+                    case totalSearch -> {
+                        System.out.print("통합으로 검색합니다 : ");
+                        String search = InputUtils.nextLine();
+                        result = sh.searchTracks(search);
+
+                        for (song_Command song_Command : song_Command.values()) {
+                            System.out.println(song_Command.getCode() + ". " + song_Command.getTitle());
+                        }
+
+                        String inputSongCommand = InputUtils.nextLine("메뉴를 입력하세요");
+                        song_Command command3 = song_Command.from(inputSongCommand);
+
+                        switch (command3){
+                            case sort -> {
+                                //정렬 메뉴 출력
+
+                                for (sort_Command sort_Command : sort_Command.values()) {
+                                    System.out.println(sort_Command.getCode() + ". " + sort_Command.getTitle());
+                                }
+
+                                String inputsortCommand = InputUtils.nextLine("메뉴를 입력하세요");
+                                sort_Command command4 = sort_Command.from(inputsortCommand);
+                                switch (command4) {
+                                    case sortByReleaseDateASC -> {
+                                        System.out.println("발매일 오름차순");
+                                    }
+                                    case sortByReleaseDateDESC -> {
+                                        System.out.println("발매일 내림차순");
+                                    }
+                                    case sortByArtistNameASC -> {
+                                        System.out.println("가수이름 오름차순");
+                                    }
+                                    case sortByArtistNameDESC -> {
+                                        System.out.println("가수이름 내림차순");
+                                    }
+                                    case exit -> {
+                                        System.out.println("메인메뉴로 돌아갑니다");
+                                    }
+                                }
+                            }
+                            case showAlbum -> {
+                                System.out.println("어떤 곡의 엘범을 보고싶나요 : ");
+                                pl.printTrack(result);
+                                System.out.print("번호를 선택해주세요 : ");
+                                String number = InputUtils.nextLine();
+                                for (int i = 0; i < result.size(); i++) {
+                                    if(Integer.parseInt(number) == i){
+                                        pl.printAlbum(sh.searchAlbum(result.get(i).getCollectionId()));
+                                    }
+                                }
+                            }
+                            case exit -> {
+                                System.out.println("메인메뉴로 돌아갑니다");
+                            }
+
+                        }
                     }
-                    case SEARCH_TITLE -> {
-                        System.out.println("제목으로 검색합니다");
-                    }
-                    case EXIT -> {
+                    case exit -> {
                         System.out.println("메인메뉴로 돌아갑니다");
                     }
-                }
             }
             case CART -> {
                 cartController.showCart();
@@ -84,23 +139,6 @@ public class CommandHandler {
                     }
                     case EXIT -> System.out.println("메인메뉴로 돌아갑니다");
                 }
-            }
-            case BUY_ALBUM -> {
-                for (purchase_Command purchase_Command : purchase_Command.values()) {
-                    System.out.println(purchase_Command.getCode() + ". " + purchase_Command.getTitle());
-                }
-
-                String inputpurchaseCommand = InputUtils.nextLine();
-                purchase_Command command3 = purchase_Command.from(inputpurchaseCommand);
-
-                switch (command3){
-                    case EXIT -> {
-                        System.out.println("메인메뉴로 돌아갑니다");
-                    }
-                }
-            }
-            case SHOW_MY_ALBUM -> {
-                myAlbum.showMyAlbum();
             }
             case EXIT -> {
                 System.out.println("종료합니다.");

@@ -9,8 +9,7 @@ import music.domain.dto.*;
 
 public class Search {
 
-    /** 노래를 검색해서 10개까지 리스트로 반환 */
-    public List searchTracks(String keyword) {
+public List<TrackDTO> searchTracks(String keyword) {
 
         String encodedParam;
 
@@ -51,8 +50,10 @@ public class Search {
 
     }
 
-    /** 앨범 ID로 앨범 정보 조회 */
-    public List<AlbumDTO> searchAlbum(String alBumId) {
+    /*
+     * 앨범 ID로 앨범 정보 조회
+     */
+    public AlbumDTO searchAlbum(String alBumId) {
         String url = "https://itunes.apple.com/lookup?id=" + alBumId + "&entity=song&lang=ko_kr";
 
         HttpClient client = HttpClient.newHttpClient();
@@ -78,9 +79,8 @@ public class Search {
             TrackDTO trackDTO = gson.fromJson(resultsArray.get(i).getAsJsonObject(), TrackDTO.class);
             albumDTO.addTrack(trackDTO);
         }
-        List<AlbumDTO> albumList = Arrays.asList(albumDTO);
 
-        return albumList;
+        return albumDTO;
     }
 
     /** TOP 50 조회 */

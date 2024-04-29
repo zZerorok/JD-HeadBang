@@ -13,7 +13,6 @@ public class AlbumDTO {
     private String collectionId;
     private List<TrackDTO> tackList;
     private int collectionPriceKRW;
-
     private int quantity;
 
     public AlbumDTO(String artistName, String collectionName, Double collectionPriceUSD, String releaseDate,

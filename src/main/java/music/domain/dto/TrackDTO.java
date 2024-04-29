@@ -42,11 +42,11 @@ public class TrackDTO {
         return primaryGenreName;
     }
 
-    public String getReleaseDate() {
-        return releaseDate;
-    }
-
     public String getCollectionId() {
         return collectionId;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
     }
 }

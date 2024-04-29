@@ -1,14 +1,14 @@
 package music.ui.console;
 
-public enum search_Command {
-    showAlbum("1", "보유중인 엘범"),
-    totalSearch("2", "통합검색"),
+public enum song_Command {
+    sort("1", "정렬"),
+    showAlbum("2", "노래를 통해 엘범 도출"),
     exit("0", "종료하기");
 
     private final String code;
     private final String title;
 
-    search_Command(String code, String title) {
+    song_Command(String code, String title) {
         this.code = code;
         this.title = title;
     }
@@ -20,10 +20,10 @@ public enum search_Command {
         return title;
     }
 
-    public static search_Command from(String code) {
-        for (search_Command search_Command : values()) {
-            if (search_Command.code.equals(code)) {
-                return search_Command;
+    public static song_Command from(String code) {
+        for (song_Command song_Command : values()) {
+            if (song_Command.code.equals(code)) {
+                return song_Command;
             }
         }
         throw new IllegalArgumentException(code + " 명령어는 찾을 수 없습니다");
