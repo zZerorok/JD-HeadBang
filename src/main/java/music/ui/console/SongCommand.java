@@ -2,7 +2,6 @@ package music.ui.console;
 
 public enum SongCommand {
     SORT("1", "정렬"),
-    SHOW_ALBUM("2", "앨범보기"),
     EXIT("0", "종료하기");
 
     private final String code;
