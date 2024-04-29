@@ -1,8 +1,10 @@
 package music.domain.dto;
 
 
+import com.google.gson.annotations.SerializedName;
 
 public class TrackDTO {
+
     private String artistName;
     private String trackName;
     private String previewUrl;
