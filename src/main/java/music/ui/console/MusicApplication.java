@@ -7,7 +7,7 @@ public class MusicApplication {
         CommandHandler commandHandler = new CommandHandler();
 
         while (true) {
-            System.out.println("============================");
+            System.out.println("⭐〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️⭐");
             try {
                 commandHandler.run();
             } catch (Exception e) {

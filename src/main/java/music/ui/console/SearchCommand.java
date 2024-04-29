@@ -1,8 +1,8 @@
 package music.ui.console;
 
 public enum SearchCommand {
-    SHOW_ALBUM("1", "새로들어온 노래"),
-    TOTAL_SEARCH("2", "검색"),
+    SHOW_ALBUM("1", "최신 곡 TOP50 보기"),
+    TOTAL_SEARCH("2", "검색하기"),
     EXIT("0", "종료하기");
 
     private final String code;
@@ -26,6 +26,6 @@ public enum SearchCommand {
                 return search_Command;
             }
         }
-        throw new IllegalArgumentException(code + " 명령어는 찾을 수 없습니다");
+        throw new IllegalArgumentException("해당 " + code + "번 명령어는 찾을 수 없습니다");
     }
 }
