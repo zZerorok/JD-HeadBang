@@ -1,12 +1,12 @@
 package music.ui.console;
 
 public enum SortCommand {
-    RELEASEDATE_ASC("1", "발매일 오름차순"),
-    RELEASEDATE_DESC("2", "발매일 내림차순"),
-    ARTISTNAME_ASC("3", "가수이름 오름차순"),
-    ARTISTNAME_DESC("4", "가수이름 내림차순"),
-    NAME_ASC("5", "곡명 오름차순"),
-    NAME_DESC("6", "곡명 내림차순"),
+    RELEASEDATE_DESC("1", "발매일이 오래된순부터 조회하기"),
+    RELEASEDATE_ASC("2", "발매일이 최신순부터 조회하기"),
+    ARTISTNAME_DESC("3", "가수이름 가나다순으로 조회하기"),
+    ARTISTNAME_ASC("4", "가수이름 역순으로 조회하기"),
+    NAME_DESC("5", "곡명 가나다순으로 조회하기"),
+    NAME_ASC("6", "곡명 역순으로 조회하기"),
     EXIT("0", "종료하기");
 
     private final String code;
@@ -30,6 +30,6 @@ public enum SortCommand {
                 return sort_Command;
             }
         }
-        throw new IllegalArgumentException(code + " 명령어는 찾을 수 없습니다");
+        throw new IllegalArgumentException("해당 " + code + "번 명령어는 찾을 수 없습니다");
     }
 }

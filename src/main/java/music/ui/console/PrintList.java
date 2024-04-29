@@ -1,6 +1,9 @@
 package music.ui.console;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import music.domain.CartItem;
 import music.domain.dto.AlbumDTO;
 import music.domain.dto.TrackDTO;
@@ -26,7 +29,7 @@ public class PrintList {
 
     public static String formatCart(CartItem item) {
         StringBuilder sb = new StringBuilder();
-        sb.append("장바구니id : ").append(item.getId())
+        sb.append("장바구니 id : ").append(item.getId())
                 .append(", 앨범이름 : ").append(item.getAlbum().getCollectionName())
                 .append(", 앨범가격 : ").append(item.getAlbum().getCollectionPriceKRW());
         return sb.toString();
@@ -69,10 +72,10 @@ public class PrintList {
             return;
         }
 
-        System.out.println("Top 50 Tracks:");
-        System.out.println("----------------------------------------------------------------------------------");
+        System.out.println("--------------------------------🎉🎊 TOP 50곡 🏆🎖️-------------------------------");
+        System.out.println("⭐〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰〰️〰️〰️〰〰️〰️〰️⭐");
         System.out.printf("%-30s %-40s %-15s%n", "가수", "노래이름", "발매날짜");
-        System.out.println("----------------------------------------------------------------------------------");
+        System.out.println("⭐〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️⭐");
 
         for (HashMap<String, String> track : topTracks) {
             String artistName = track.get("artistName");
@@ -82,8 +85,9 @@ public class PrintList {
             System.out.printf("%-30s %-40s %-15s%n", artistName, trackName, releaseDate);
         }
 
-        System.out.println("----------------------------------------------------------------------------------");
+        System.out.println("⭐〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰〰️〰️〰️〰〰️〰️〰️〰⭐");
     }
+
 
 
 }
