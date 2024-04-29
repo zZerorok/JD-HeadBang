@@ -92,5 +92,9 @@ public class AlbumDTO {
                 ", quantity=" + quantity +
                 '}';
     }
+
+    public void decrementQuantity(int amount) {
+        quantity = Math.max(quantity-amount,0);
+    }
 }
 

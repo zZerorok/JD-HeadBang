@@ -2,6 +2,7 @@ package music.application;
 
 import music.domain.CartItem;
 import music.domain.CartRepository;
+import music.domain.MyAlbum;
 import music.domain.dto.AlbumDTO;
 import music.service.Database;
 
@@ -34,5 +35,22 @@ public class CartService {
 
     public List<CartItem> findAll() {
         return cartRepository.findAll();
+    }
+
+    public void update(int inputCartItemIds, int quantity) {
+        cartRepository.update(inputCartItemIds, quantity);
+    }
+
+    public void buy(MyAlbum myAlbum, Database db) {
+        cartRepository.buy(myAlbum, db);
+    }
+
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        List<CartItem> cartItems = cartRepository.findAll();
+        for (CartItem item : cartItems) {
+            totalPrice += item.getAlbum().getCollectionPriceKRW() * item.getQuantity();
+        }
+        return totalPrice;
     }
 }

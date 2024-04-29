@@ -18,7 +18,7 @@ public class Search {
 
         {
             try {
-                encodedParam = URLEncoder.encode(keyword,"UTF-8");
+                encodedParam = URLEncoder.encode(keyword, "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e);
             }
