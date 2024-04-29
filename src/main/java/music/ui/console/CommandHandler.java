@@ -31,34 +31,42 @@ public class CommandHandler {
         money = 100000;
     }
 
+    public static void emoji(){
+        System.out.println("⭐〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️⭐");
+    }
+
     public void run() {
         // 메인메뉴 커맨드
-        System.out.println("뱅뱅뮤직스토어에 온걸 환영합니다");
+        System.out.println("🎤🎵🪩반갑습니다, 헤드뱅뱅뮤직스토어에 오신 것을 환영합니다!🎤🎵🪩");
+        emoji();
         for (Command command : Command.values()) {
             System.out.println(command.getCode() + ". " + command.getTitle());
         }
-
-        String inputCommand = InputUtils.nextLine("메뉴를 입력하세요.");
+        emoji();
+        String inputCommand = InputUtils.nextLine("원하는 메뉴를 입력하세요 ");
+        emoji();
         Command command = Command.from(inputCommand);
 
         switch (command) {
-            case SEARCHALBUM -> {
+            case SEARCH_ALBUM -> {
                 for (SearchCommand search_Command : SearchCommand.values()) {
                     System.out.println(search_Command.getCode() + ". " + search_Command.getTitle());
                 }
-                String inputSearchCommand = InputUtils.nextLine("메뉴를 입력하세요");
+                emoji();
+                String inputSearchCommand = InputUtils.nextLine("메뉴를 입력하세요 ");
+                emoji();
                 SearchCommand command2 = SearchCommand.from(inputSearchCommand);
 
                 switch (command2) {
                     case SHOW_ALBUM -> {
-                        System.out.println("유행하는 top50이에요~!");
-                        //pl.displayTopTracks(sh.searchTop50()); <- 이걸 활용해서 정렬해주세요
+//                        System.out.println("🎙️ TOP50 곡 목록입니다~!");
+//                        pl.displayTopTracks(sh.searchTop50());
 
                         for (SongCommand song_Command : SongCommand.values()) {
                             System.out.println(song_Command.getCode() + ". " + song_Command.getTitle());
                         }
 
-                        String inputSongCommand = InputUtils.nextLine("메뉴를 입력하세요.");
+                        String inputSongCommand = InputUtils.nextLine("메뉴를 입력하세요 ");
                         SongCommand command3 = SongCommand.from(inputSongCommand);
 
                         switch (command3) {
@@ -67,47 +75,51 @@ public class CommandHandler {
                                 for (SortCommand sort_Command : SortCommand.values()) {
                                     System.out.println(sort_Command.getCode() + ". " + sort_Command.getTitle());
                                 }
-                                String inputsortCommand = InputUtils.nextLine("메뉴를 입력하세요.");
+                                String inputsortCommand = InputUtils.nextLine("메뉴를 입력하세요 ");
                                 SortCommand command4 = SortCommand.from(inputsortCommand);
                                 switch (command4) {
                                     case RELEASEDATE_ASC -> {
-                                        System.out.println("[발매일 오름차순]");
-                                        db.getTrackList().sort(new AscReleaseDate());
-                                        System.out.println(db.getTrackList());
+                                        System.out.println("🔎 발매일이 오래된순부터 조회하기");
+                                        List<TrackDTO> sortedTracks = sh.searchTop50();
+                                        sortedTracks.sort(new DescReleaseDate());
+                                        pl.displayTopTracks(sortedTracks);
 
                                     }
                                     case RELEASEDATE_DESC -> {
-                                        System.out.println("[발매일 내림차순]");
-                                        db.getTrackList().sort(new DescReleaseDate());
-                                        System.out.println(db.getTrackList());
-
-                                    }
-                                    case ARTISTNAME_ASC -> {
-                                        System.out.println("[가수이름 오름차순]");
-                                        db.getTrackList().sort(new AscArtistName());
-                                        System.out.println(db.getTrackList());
+                                        System.out.println("🔎 발매일이 최신순부터 조회하기");
+                                        List<TrackDTO> sortedTracks = sh.searchTop50();
+                                        sortedTracks.sort(new AscReleaseDate());
+                                        pl.displayTopTracks(sortedTracks);
 
                                     }
                                     case ARTISTNAME_DESC -> {
-                                        System.out.println("[가수이름 내림차순]");
-                                        db.getTrackList().sort(new DescArtistName());
-                                        System.out.println(db.getTrackList());
+                                        System.out.println("🔎 가수이름 가나다순으로 조회하기");
+                                        List<TrackDTO> sortedTracks = sh.searchTop50();
+                                        sortedTracks.sort(new AscArtistName());
+                                        pl.displayTopTracks(sortedTracks);
 
                                     }
-                                    case NAME_ASC -> {
-                                        System.out.println("[곡명 오름차순]");
-                                        db.getTrackList().sort(new AscTrackName());
-                                        System.out.println(db.getTrackList());
+
+                                    case ARTISTNAME_ASC -> {
+                                        System.out.println("🔎 가수이름 역순으로 조회하기");
+                                        List<TrackDTO> sortedTracks = sh.searchTop50();
+                                        sortedTracks.sort(new DescArtistName());
+                                        pl.displayTopTracks(sortedTracks);
                                     }
                                     case NAME_DESC -> {
-                                        System.out.println("[곡명 내림차순]");
-                                        db.getTrackList().sort(new DescTrackName());
-                                        System.out.println(db.getTrackList());
+                                        System.out.println("🔎 곡명 가나다순으로 조회하기");
+                                        List<TrackDTO> sortedTracks = sh.searchTop50();
+                                        sortedTracks.sort(new AscTrackName());
+                                        pl.displayTopTracks(sortedTracks);
+                                    }
+                                    case NAME_ASC -> {
+                                        System.out.println("🔎 곡명 역순으로 조회하기");
+                                        List<TrackDTO> sortedTracks = sh.searchTop50();
+                                        sortedTracks.sort(new DescTrackName());
+                                        pl.displayTopTracks(sortedTracks);
                                     }
 
-                                    case EXIT -> {
-                                        System.out.println("메인메뉴로 돌아갑니다");
-                                    }
+                                    case EXIT -> System.out.println("메인메뉴로 돌아갑니다");
                                 }
                             }
                         }
@@ -115,7 +127,9 @@ public class CommandHandler {
                     case TOTAL_SEARCH -> {
                         System.out.print("검색어를 입력해주세요 : ");
                         String search = InputUtils.nextLine();
-                        result = sh.searchTracks(search); //이게 열곡인데 다빈넴 가수오름차순으로 나오게 정렬 부탁드립니다
+
+                        result = sh.searchTracks(search); //TODO 다빈 : 가수 내림차순 정렬
+                        result.sort(new music.comparable.sort.track.DescArtistName());
                         pl.printTrack(result);
                         System.out.print("번호를 선택해주세요 : ");
                         String number = InputUtils.nextLine();
@@ -150,7 +164,7 @@ public class CommandHandler {
                         System.out.println("장바구니에 담은 앨범을 구매합니다.");
                         int totalPrice = cartController.getTotalPrice(); // 장바구니에 담긴 앨범들의 총 금액
                         if (money >= totalPrice) {
-                            cartController.buy(myAlbum, db);
+                            cartController.buy(myAlbum);
                             money -= totalPrice;
                         }
                     }

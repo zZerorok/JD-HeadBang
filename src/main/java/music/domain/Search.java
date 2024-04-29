@@ -12,7 +12,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Search {
@@ -103,7 +102,7 @@ public class Search {
     }
 
     /** TOP 50 조회 */
-    public List<HashMap<String,String>> searchTop50() {
+    public List<TrackDTO> searchTop50() {
 
         String url = "https://rss.applemarketingtools.com/api/v2/kr/music/most-played/50/songs.json";
         HttpClient client = HttpClient.newHttpClient();
@@ -119,22 +118,18 @@ public class Search {
             throw new RuntimeException(e);
         }
 
-        List<HashMap<String,String>> top50Tracks = new ArrayList<>();
+        List<TrackDTO> top50Tracks = new ArrayList<>();
 
         JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
         JsonObject feed = jsonObject.getAsJsonObject("feed");
         JsonArray resultsArray = feed.getAsJsonArray("results");
         for (JsonElement element : resultsArray) {
-            HashMap<String,String> track = new HashMap<>();
             JsonObject innerJsonObject = element.getAsJsonObject();
             String artistName = innerJsonObject.get("artistName").getAsString();
             String trackName = innerJsonObject.get("name").getAsString();
             String releaseDate = innerJsonObject.get("releaseDate").getAsString();
 
-            track.put("artistName", artistName);
-            track.put("trackName", trackName);
-            track.put("releaseDate", releaseDate);
-
+            TrackDTO track = new TrackDTO(artistName, trackName, "", "", releaseDate, "");
             top50Tracks.add(track);
         }
         return top50Tracks;

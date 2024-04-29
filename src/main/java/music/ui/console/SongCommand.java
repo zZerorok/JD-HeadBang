@@ -1,7 +1,7 @@
 package music.ui.console;
 
 public enum SongCommand {
-    SORT("1", "정렬"),
+    SORT("1", "🔎 여러 정렬 기준으로 조회할 수 있습니다. (가수/곡명/발매일)"),
     EXIT("0", "종료하기");
 
     private final String code;
@@ -25,6 +25,6 @@ public enum SongCommand {
                 return song_Command;
             }
         }
-        throw new IllegalArgumentException(code + " 명령어는 찾을 수 없습니다");
+        throw new IllegalArgumentException("해당 " + code + "번 명령어는 찾을 수 없습니다");
     }
 }

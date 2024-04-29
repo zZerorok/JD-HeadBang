@@ -1,11 +1,7 @@
 package music.ui.console;
 
-import java.util.ArrayList;
 import music.application.CartService;
-import music.comparable.sort.album.DescCollectionName;
-import music.domain.CartItem;
 import music.domain.MyAlbum;
-import music.service.Database;
 import music.ui.console.utils.InputUtils;
 
 import java.text.MessageFormat;
