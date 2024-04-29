@@ -1,9 +1,9 @@
 package music.ui.console;
 
 public enum Command {
-    searchAlbum("1", "검색"),
-    cart("2", "장바구니"),
-    exit("0", "종료하기");
+    SEARCHALBUM("1", "검색"),
+    CART("2", "장바구니"),
+    EXIT("0", "종료하기");
 
 
     private final String code;

@@ -32,7 +32,7 @@ public class PrintList {
     }
 
     public static String formattrack(TrackDTO track) {
-        return "가수 : " + track.getArtistName() + ", 노래 : " + track.getTrackName();
+        return track.getArtistName() + " - " + track.getTrackName();
     }
 
     public List<TrackDTO> printTrack(List<TrackDTO> list) {
