@@ -1,11 +1,10 @@
 package music.ui.console;
 
 import music.application.CartService;
+import music.domain.MyAlbum;
 import music.domain.Search;
 import music.domain.dto.TrackDTO;
-import music.domain.MyAlbum;
 import music.infrastructure.CartInMemoryRepository;
-import music.service.Database;
 import music.ui.console.utils.InputUtils;
 import view.PrintList;
 
@@ -15,16 +14,14 @@ import java.util.List;
 public class CommandHandler {
     private final CartController cartController;
     private final PrintList pl = new PrintList();
-    List<TrackDTO> result = new ArrayList<>();
+    private List<TrackDTO> result = new ArrayList<>();
 
-
-    private Database db = new Database();
-    private Search sh = new Search();
+    private final Search sh = new Search();
     private final MyAlbum myAlbum = new MyAlbum();
     private long money;
 
     public CommandHandler() {
-        CartService cartService = new CartService(new CartInMemoryRepository(), db);
+        CartService cartService = new CartService(new CartInMemoryRepository(), sh);
         cartController = new CartController(cartService);
         money = 100000;
     }
@@ -41,9 +38,7 @@ public class CommandHandler {
 
         switch (command) {
             case SEARCHALBUM -> {
-                for (SearchCommand search_Command : SearchCommand.values()) {
-                    System.out.println(search_Command.getCode() + ". " + search_Command.getTitle());
-                }
+                printSearchMenu();
                 String inputSearchCommand = InputUtils.nextLine("메뉴를 입력하세요");
                 SearchCommand command2 = SearchCommand.from(inputSearchCommand);
 
@@ -67,9 +62,7 @@ public class CommandHandler {
                             case SORT -> {
                                 //정렬 메뉴 출력
 
-                                for (SortCommand sort_Command : SortCommand.values()) {
-                                    System.out.println(sort_Command.getCode() + ". " + sort_Command.getTitle());
-                                }
+                                printSortMenu();
                                 String inputsortCommand = InputUtils.nextLine("메뉴를 입력하세요");
                                 SortCommand command4 = SortCommand.from(inputsortCommand);
                                 switch (command4) {
@@ -110,42 +103,58 @@ public class CommandHandler {
                         System.out.println("메인메뉴로 돌아갑니다");
                     }
                 }
-                }
-                case CART -> {
-                    cartController.showCart();
-                    for (PurchaseCommand purchase_Command : PurchaseCommand.values()) {
-                        System.out.println(purchase_Command.getCode() + ". " + purchase_Command.getTitle());
+            }
+            case CART -> {
+                cartController.showCart();
+                printCartMenu();
+
+                String inputCartCommand = InputUtils.nextLine("장바구니 메뉴를 입력해 주세요");
+                PurchaseCommand cartCommand = PurchaseCommand.from(inputCartCommand);
+
+                switch (cartCommand) {
+                    case PUT -> cartController.put();
+                    case CANCEL -> cartController.cancel();
+                    case CHANGE_AMOUNT -> {
+                        System.out.println("수량을 변경합니다");
+                        cartController.update();
                     }
-
-                    String inputCartCommand = InputUtils.nextLine("장바구니 메뉴를 입력해 주세요");
-                    PurchaseCommand cartCommand = PurchaseCommand.from(inputCartCommand);
-
-                    switch (cartCommand) {
-                        case PUT -> cartController.put();
-                        case CANCEL -> cartController.cancel();
-                        case CHANGE_AMOUNT -> {
-                            System.out.println("수량을 변경합니다");
-                            cartController.update();
-                        }
-                        case PURCHASE -> {
-                            System.out.println("장바구니에 담은 앨범을 구매합니다");
-                            int totalPrice = cartController.getTotalPrice(); // 장바구니에 담긴 앨범들의 총 금액
-                            if (money >= totalPrice) {
-                                cartController.buy(myAlbum, db);
-                                money -= totalPrice;
-                            }
-                        }
-                        case EXIT -> {
-                            System.out.println("메인메뉴로 돌아갑니다");
+                    case PURCHASE -> {
+                        System.out.println("장바구니에 담은 앨범을 구매합니다");
+                        int totalPrice = cartController.getTotalPrice(); // 장바구니에 담긴 앨범들의 총 금액
+                        if (money >= totalPrice) {
+                            cartController.buy(myAlbum);
+                            money -= totalPrice;
                         }
                     }
+                    case EXIT -> {
+                        System.out.println("메인메뉴로 돌아갑니다");
+                    }
                 }
-                case EXIT -> {
-                    System.out.println("종료합니다.");
-                    System.exit(0);
-                }
+            }
+            case EXIT -> {
+                System.out.println("종료합니다.");
+                System.exit(0);
             }
         }
     }
+
+    private static void printCartMenu() {
+        for (PurchaseCommand command : PurchaseCommand.values()) {
+            System.out.println(command.getCode() + ". " + command.getTitle());
+        }
+    }
+
+    private static void printSortMenu() {
+        for (SortCommand command : SortCommand.values()) {
+            System.out.println(command.getCode() + ". " + command.getTitle());
+        }
+    }
+
+    private static void printSearchMenu() {
+        for (SearchCommand command : SearchCommand.values()) {
+            System.out.println(command.getCode() + ". " + command.getTitle());
+        }
+    }
+}
 
 

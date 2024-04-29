@@ -11,6 +11,7 @@ public class PrintList {
     public static String formatAlbum(AlbumDTO album) {
         StringBuilder sb = new StringBuilder();
         sb.append("가수 : ").append(album.getArtistName())
+                .append(", 엘범 아이디 : ").append(album.getCollectionId())
                 .append(", 엘범이름 : ").append(album.getCollectionName())
                 .append(", 가격 : ").append(album.getCollectionPriceKRW())
                 .append(", 노래목록 : [");
@@ -32,7 +33,7 @@ public class PrintList {
     }
 
     public static String formattrack(TrackDTO track) {
-        return track.getArtistName() + " - " + track.getTrackName();
+        return track.getArtistName() + " - " + track.getTrackName() + ", 앨범 ID: " + track.getCollectionId();
     }
 
     public List<TrackDTO> printTrack(List<TrackDTO> list) {
