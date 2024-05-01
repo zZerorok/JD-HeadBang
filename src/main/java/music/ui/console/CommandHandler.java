@@ -1,5 +1,6 @@
 package music.ui.console;
 
+import javafx.application.Application;
 import music.application.CartService;
 import music.comparable.sort.track.AscArtistName;
 import music.comparable.sort.track.AscReleaseDate;
@@ -11,7 +12,12 @@ import music.domain.Search;
 import music.domain.dto.TrackDTO;
 import music.domain.MyAlbum;
 import music.infrastructure.CartInMemoryRepository;
+import music.service.AudioPlayer;
 import music.ui.console.utils.InputUtils;
+
+import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +30,14 @@ public class CommandHandler {
     private final Search sh = new Search();
     private final MyAlbum myAlbum = new MyAlbum();
     private long money;
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final Scanner scanner = new Scanner(System.in);
+    private boolean keepRunning = true;
 
     public CommandHandler() {
         CartService cartService = new CartService(new CartInMemoryRepository(), sh);
         cartController = new CartController(cartService);
+
         money = 100000;
     }
 
@@ -128,15 +138,23 @@ public class CommandHandler {
                         System.out.print("검색어를 입력해주세요 : ");
                         String search = InputUtils.nextLine();
 
-                        result = sh.searchTracks(search); //TODO 다빈 : 가수 내림차순 정렬
-                        result.sort(new music.comparable.sort.track.DescArtistName());
+                        result = sh.searchTracks(search);
+                        result.sort(new DescArtistName());
                         pl.printTrack(result);
+
                         System.out.print("번호를 선택해주세요 : ");
-                        String number = InputUtils.nextLine();
-                        for (int i = 0; i < result.size(); i++) {
-                            if ((Integer.parseInt(number) - 1) == i) {
-                                pl.printAlbum(sh.searchAlbum(result.get(i).getCollectionId()));
-                            }
+                        String choice = InputUtils.nextLine();
+                        if ("q".equalsIgnoreCase(choice)) {
+                            return;
+                        }
+
+                        try {
+                            int index = Integer.parseInt(choice) - 1;
+                            pl.printAlbum(sh.searchAlbum(result.get(index).getCollectionId()));
+                            AudioPlayer.play(result.get(index).getPreviewUrl());
+                            waitForUserToStopMusic();
+                        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+                            System.out.println(choice +" 명령어는 찾을 수 없습니다");
                         }
                     }
                     case EXIT -> {
@@ -177,6 +195,19 @@ public class CommandHandler {
                 System.out.println("종료합니다.");
                 System.exit(0);
             }
+        }
+    }
+
+    private void waitForUserToStopMusic() {
+        System.out.print("q를 눌러 음악을 중지할수 있습니다 : ");
+        String input = InputUtils.nextLine();
+        if ("q".equalsIgnoreCase(input)) {
+            AudioPlayer.pause(); // 일시정지합니다.
+            return;
+        } else {
+            // 새로운 미디어를 재생합니다.
+            AudioPlayer.play(input);
+            waitForUserToStopMusic(); // 재귀적으로 다음 입력을 대기합니다.
         }
     }
 }

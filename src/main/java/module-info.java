@@ -2,6 +2,7 @@ module AudioPlayerModule {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.media;
+    requires javafx.swing;
 
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
