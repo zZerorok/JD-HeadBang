@@ -1,31 +1,24 @@
 # JD-HeadBang
-## bangbangalbumshop
 4조
-스프링 부트 + JSP 파싱_영화 예매 사이트
-
 
 ## 🖥️ 프로젝트 소개
-MEGA BOX를 참고하여 만든 영화 예매 사이트입니다.
+앨범샵으로 유저가 가수의 이름이나 노래이름으로 검색해서 구매하는 프로그램입니다
 <br>
 
 ## 🕰️ 개발 기간
-* 22.04.26일 - 22.05.24일
+* 24.04.26일 - 24.04.30일
 
 ### 🧑‍🤝‍🧑 맴버구성
- - 팀장  : 이윤재 - 영화 예매, 영화 업로드, Database Script 제작, 통합 및 형상관리
- - 팀원1 : 채현우 - 로그인, 회원가입, ID찾기, PW찾기, 마이 페이지,메인 페이지, 통합 및 형상관리, PPT제작, 발표
- - 팀원2 : 이종원 - 메인 페이지, 메인 CSS
- - 팀원3 : 전성덕 - 1대1 문의 게시판(CRUD), 공지사항 게시판(CRUD)
- - 팀원4 : 김창훈 - 1대1 문의 게시판(CRUD), 공지사항 게시판(CRUD)
- - 팀원5 : 김성재 - 로그인, 회원가입, ID찾기, PW찾기
+ - 팀원1 : 김다빈 -
+ - 팀원2 : 노영록 - 
+ - 팀원3 : 송재혁 - 
+ - 팀원4 : 육슬찬 - 
+ - 팀원5 : 이창연 -
 
 ### ⚙️ 개발 환경
-- `Java 8`
-- `JDK 1.8.0`
-- **IDE** : STS 3.9
-- **Framework** : Springboot(2.x)
-- **Database** : Oracle DB(11xe)
-- **ORM** : Mybatis
+-  ``` Java 17 ```
+- ``` JDK-17.0.10+7 ```
+- **IDE** : IntelliJ IDEA Ultimate 2023.3.6
 
 ## 📌 주요 기능
 #### 로그인 - <a href="https://github.com/chaehyuenwoo/SpringBoot-Project-MEGABOX/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Login)" >상세보기 - WIKI 이동</a>
