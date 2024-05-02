@@ -1,38 +1,30 @@
 package music.ui.console;
 
-import javafx.application.Application;
 import music.application.CartService;
-import music.comparable.sort.track.AscArtistName;
-import music.comparable.sort.track.AscReleaseDate;
-import music.comparable.sort.track.AscTrackName;
-import music.comparable.sort.track.DescArtistName;
-import music.comparable.sort.track.DescReleaseDate;
-import music.comparable.sort.track.DescTrackName;
+import music.comparable.sort.track.*;
+import music.domain.MyAlbum;
 import music.domain.Search;
 import music.domain.dto.TrackDTO;
-import music.domain.MyAlbum;
 import music.infrastructure.CartInMemoryRepository;
 import music.service.AudioPlayer;
 import music.ui.console.utils.InputUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CommandHandler {
     private final CartController cartController;
     private final PrintList pl = new PrintList();
-    private List<TrackDTO> result = new ArrayList<>();
-
     private final Search sh = new Search();
     private final MyAlbum myAlbum = new MyAlbum();
-    private long money;
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
     private final Scanner scanner = new Scanner(System.in);
-    private boolean keepRunning = true;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final boolean keepRunning = true;
+    private List<TrackDTO> result = new ArrayList<>();
+    private long money;
 
     public CommandHandler() {
         CartService cartService = new CartService(new CartInMemoryRepository(), sh);
@@ -41,7 +33,7 @@ public class CommandHandler {
         money = 100000;
     }
 
-    public static void emoji(){
+    public static void emoji() {
         System.out.println("⭐〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️⭐");
     }
 
@@ -143,6 +135,7 @@ public class CommandHandler {
                         pl.printTrack(result);
 
                         System.out.print("번호를 선택해주세요 : ");
+
                         String choice = InputUtils.nextLine();
                         if ("q".equalsIgnoreCase(choice)) {
                             return;
@@ -153,8 +146,9 @@ public class CommandHandler {
                             pl.printAlbum(sh.searchAlbum(result.get(index).getCollectionId()));
                             AudioPlayer.play(result.get(index).getPreviewUrl());
                             waitForUserToStopMusic();
+                            cartController.put(result.get(index).getCollectionId());
                         } catch (NumberFormatException | IndexOutOfBoundsException e) {
-                            System.out.println(choice +" 명령어는 찾을 수 없습니다");
+                            System.out.println(choice + " 명령어는 찾을 수 없습니다");
                         }
                     }
                     case EXIT -> {
@@ -203,7 +197,6 @@ public class CommandHandler {
         String input = InputUtils.nextLine();
         if ("q".equalsIgnoreCase(input)) {
             AudioPlayer.pause(); // 일시정지합니다.
-            return;
         } else {
             // 새로운 미디어를 재생합니다.
             AudioPlayer.play(input);
