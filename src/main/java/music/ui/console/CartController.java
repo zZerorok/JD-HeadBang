@@ -41,6 +41,14 @@ public class CartController {
         System.out.println("앨범 목록을 장바구니에 담았습니다.");
     }
 
+    public void put(String inputAlbumIds) {
+        List<String> albumIds = Arrays.stream(inputAlbumIds.split(","))
+                .map(String::trim)
+                .toList();
+        cartService.put(albumIds);
+//        System.out.println("앨범 목록을 장바구니에 담았습니다.");
+    }
+
     public void cancel() {
         String inputCartItemIds = InputUtils.nextLine("장바구니 번호를 입력해 주세요. (구분자: ,)");
         List<Integer> cartItemIds = Arrays.stream(inputCartItemIds.split(","))

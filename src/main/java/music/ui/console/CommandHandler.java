@@ -135,6 +135,8 @@ public class CommandHandler {
                         String number = InputUtils.nextLine();
                         for (int i = 0; i < result.size(); i++) {
                             if ((Integer.parseInt(number) - 1) == i) {
+                                // TODO: result.get(i).getCollectionId()를 등록하기
+                                cartController.put(result.get(i).getCollectionId());
                                 pl.printAlbum(sh.searchAlbum(result.get(i).getCollectionId()));
                             }
                         }
