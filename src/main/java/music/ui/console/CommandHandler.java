@@ -5,6 +5,7 @@ import music.comparable.sort.track.*;
 import music.domain.MyAlbum;
 import music.domain.Search;
 import music.domain.dto.TrackDTO;
+import music.domain.dto.User;
 import music.infrastructure.CartInMemoryRepository;
 import music.service.AudioPlayer;
 import music.ui.console.utils.InputUtils;
@@ -14,6 +15,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static music.ui.console.UserCommand.LOGIN;
+import static music.ui.console.UserCommand.SIGNUP;
 
 public class CommandHandler {
     private final CartController cartController;
@@ -41,6 +45,41 @@ public class CommandHandler {
         // 메인메뉴 커맨드
         System.out.println("🎤🎵🪩반갑습니다, 헤드뱅뱅뮤직스토어에 오신 것을 환영합니다!🎤🎵🪩");
         emoji();
+        boolean isLogin = false;
+        String userId = " ";
+        String userPassword = " ";
+        while(true) {
+            for (UserCommand command : UserCommand.values()) {
+                System.out.println(command.getCode() + ". " + command.getTitle());
+            }
+            emoji();
+            String inputCommand = InputUtils.nextLine("원하는 메뉴를 입력하세요 ");
+            emoji();
+            UserCommand command = UserCommand.from(inputCommand);
+            switch (command) {
+                case SIGNUP -> {
+                    userId = InputUtils.nextLine("아이디를 입력해주세요");
+                    userPassword = InputUtils.nextLine("비밀번호를 입력해주세요");
+                    User user = new User(userId, userPassword);
+                }
+                case LOGIN -> {
+                    String userId2 = InputUtils.nextLine("아이디를 입력해주세요");
+                    String userPassword2= InputUtils.nextLine("비밀번호를 입력해주세요");
+                    User user = new User(userId2, userPassword2);
+                    if (userId2.equals(userId) && userPassword2.equals(userPassword)) {
+                        System.out.println("로그인에 성공했습니다");
+                        isLogin = true;
+                    }
+                    else {
+                        System.out.println("로그인에 실패했습니다");
+                    }
+                }
+            }
+            if (isLogin)
+                break;
+        }
+
+
         for (Command command : Command.values()) {
             System.out.println(command.getCode() + ". " + command.getTitle());
         }

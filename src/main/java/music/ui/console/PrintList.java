@@ -4,6 +4,7 @@ package music.ui.console;
 import music.domain.CartItem;
 import music.domain.dto.AlbumDTO;
 import music.domain.dto.TrackDTO;
+import music.domain.dto.User;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,6 +58,9 @@ public class PrintList {
             }
         }
         return item;
+    }
+    public void printUser(User user){
+        System.out.println(user.getId() + "\n" + user.getPassword());
     }
 
     public void displayTopTracks(List<TrackDTO> topTracks) {
