@@ -1,7 +1,7 @@
 package music.ui.console;
 
 public enum UserCommand {
-    SIGNUP("1","회원가입"),
+    SIGN_UP("1","회원가입"),
     LOGIN("2", "로그인");
 
     private final String code;
