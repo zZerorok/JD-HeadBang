@@ -1,11 +1,8 @@
 package music.domain.dto;
 
 public class User {
-    private String id;
-    private String password;
-
-    public User() {
-    }
+    private final String id;
+    private final String password;
 
     public User(String id, String password) {
         this.id = id;
@@ -19,5 +16,4 @@ public class User {
     public String getPassword() {
         return password;
     }
-
 }
